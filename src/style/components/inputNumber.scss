@@ -1,0 +1,42 @@
+.rb-number-input {
+  display: flex;
+  flex-direction: row;
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .rb-input {
+    width: 80px;
+    text-align: center;
+    border-left: none;
+    border-right: none;
+  }
+
+  .rb-btn-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    width: 36px;
+    font-size: 14px;
+    box-shadow: none !important;
+    cursor: pointer;
+  }
+
+  .rb-btn-decrease {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  .rb-btn-increase {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+}

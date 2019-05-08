@@ -6,7 +6,10 @@ const concat = require('gulp-concat');
 const cleanCSS = require('gulp-clean-css');
 
 gulp.task('sass', done => {
-  gulp.src('./src/style/*')
+  gulp.src([
+    './src/style/**',
+    '!./src/style/highlighterThemes/**',
+  ])
     .pipe(sass().on('error', sass.logError))
     .pipe(cleanCSS())
     .pipe(concat('react-report-builder.min.css'))

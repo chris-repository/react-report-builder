@@ -1,0 +1,155 @@
+@import "../vars/colors.scss";
+@import "../vars/layout.scss";
+
+.rb-report-builder-container {
+  .rb-title-small {
+    padding: 10px 0 5px 0;
+  }
+
+  .rb-title-extra-small {
+    padding: 5px 0;
+  }
+
+  .rb-report-container {
+    .rb-report-content {
+      .alert {
+        margin-top: 20px;
+      }
+    }
+
+    .rb-btn-container {
+      margin: 20px 0;
+      text-align: right;
+
+      .alert {
+        margin-bottom: 20px;
+      }
+    }
+
+    .rb-report-filters {
+      .rb-filter-container {
+        padding: 15px;
+        border: 1px solid $crimson-dark;
+      }
+
+      .rb-btn-container {
+        margin-top: 10px;
+        text-align: left;
+      }
+    }
+  }
+
+  .alert-success {
+    margin-bottom: 20px;
+  }
+}
+
+.rb-report-option {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 30px 15px 0;
+
+  @media #{$rb-screen-lg} {
+    width: 194px;
+  }
+
+  @media #{$rb-screen-md-only} {
+    width: 199px;
+  }
+
+  @media #{$rb-screen-sm-only} {
+    width: 204px;
+  }
+
+  @media #{$rb-screen-xs} {
+    width: 100%;
+  }
+
+  .rb-dropdown-with-search-container {
+    margin-bottom: 0;
+
+    .rb-dropdown-with-search__control {
+      border-color: $grey-light;
+      border-radius: 4px;
+
+      .rb-dropdown-with-search__single-value {
+        max-width: calc(100% - 55px);
+      }
+
+      .rb-dropdown-with-search__indicators {
+        .rb-dropdown-with-search__dropdown-indicator {
+          &::after {
+            border-color: $grey transparent transparent transparent;
+          }
+        }
+      }
+
+      &.rb-dropdown-with-search__control--is-disabled {
+        opacity: 1;
+        cursor: auto;
+
+        .rb-dropdown-with-search__indicators {
+          display: none;
+        }
+      }
+    }
+
+    .rb-dropdown-with-search__control--is-focused {
+      .rb-dropdown-with-search__indicators {
+        .rb-dropdown-with-search__dropdown-indicator {
+          &::after {
+            border-color: transparent transparent $grey transparent;
+          }
+        }
+      }
+    }
+  }
+
+  .rb-btn-close,
+  .rb-btn-sort {
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    visibility: visible !important;
+    opacity: 1 !important;
+    cursor: pointer;
+    z-index: 9;
+
+    &:hover {
+      > i {
+        color: $crimson-dark;
+      }
+    }
+  }
+
+  .rb-btn-sort {
+    right: 15px;
+  }
+
+  &.rb-report-option-draggable {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  &.rb-report-option-grabbed {
+    z-index: 10;
+  }
+}
+
+.rb-limit-rows-to-container {
+  margin-bottom: 20px;
+
+  .rb-limit-rows-input-container {
+    display: inline-block;
+    margin-right: 10px;
+  }
+}

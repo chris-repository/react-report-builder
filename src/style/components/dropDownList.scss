@@ -1,0 +1,102 @@
+@import "../vars/colors.scss";
+
+.border-box {
+  box-sizing: border-box;
+}
+
+.rb-dropdown-container {
+  margin-bottom: 20px;
+  color: $grey-blue-dark;
+
+  &.rb-show-list {
+    > .rb-dropdown-list {
+      display: block;
+    }
+
+    > .rb-dropdown-display {
+      .rb-selection-icon {
+        > div {
+          border-width: 0px 5px 6px 5px;
+          border-color: transparent transparent $crimson-dark transparent;
+        }
+      }
+    }
+  }
+
+  > .rb-dropdown-display {
+    display: table;
+    width: 100%;
+    height: 36px;
+    text-align: left;
+    border: 1px solid $crimson-dark;
+    cursor: pointer;
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @extend .border-box;
+
+    .rb-selection-title {
+      display: table-cell;
+      max-width: 100%;
+      padding-left: 15px;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rb-selection-icon {
+      display: table-cell;
+      width: 10px;
+      padding: 0 15px;
+      vertical-align: middle;
+      text-align: center;
+
+      > div {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6px 5px 0 5px;
+        border-color: $crimson-dark transparent transparent transparent;
+      }
+    }
+  }
+
+  > .rb-dropdown-list {
+    position: relative;
+    display: none;
+    width: 100%;
+    text-align: left;
+    z-index: 99;
+
+    > div {
+      position: absolute;
+      width: 100%;
+      top: -1px;
+      background: $white;
+      z-index: 2;
+
+      > .rb-dropdown-item {
+        display: inline-block;
+        vertical-align: middle;
+        width: 100%;
+        padding: 7px 15px;
+        border: 1px solid $grey-light;
+        border-top: none;
+        cursor: pointer;
+        @extend .border-box;
+
+        &:first-child {
+          border-top: 1px solid $grey-light;
+        }
+
+        &:hover {
+          color: $crimson-dark;
+          background-color: $grey-lighter;
+        }
+      }
+    }
+  }
+}

@@ -1,17 +1,35 @@
 {
   "compilerOptions": {
     "outDir": "./lib",
+    "importHelpers": true,
     "target": "es5",
-    "module": "commonjs",
-    "noImplicitAny": true,
-    "strictNullChecks": true,
+    "module": "esNext",
+    "noImplicitAny": false,
+    "strictNullChecks": false,
     "removeComments": true,
     "declaration": true,
     "jsx": "react",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "lib": [
+      "dom",
       "es2015",
-      "dom"
-    ]
+      "es2016"
+    ],
+    "baseUrl": "./",
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "images/*": [
+        "src/assets/images/*"
+      ],
+      "src/*": [
+        "src/*"
+      ]
+    }
   },
   "files": [
     "src/index.ts"

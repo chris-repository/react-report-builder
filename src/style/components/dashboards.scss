@@ -1,0 +1,18 @@
+@import "../vars/layout.scss";
+
+// #region -------------- Dashboards -------------------------------------------------------------------
+
+.rb-dashboards {
+  .rb-btn-group {
+    justify-content: flex-end;
+    margin-bottom: 20px;
+
+    @media #{$rb-screen-xs} {
+      > * {
+        flex: 1;
+      }
+    }
+  }
+}
+
+// #endregion

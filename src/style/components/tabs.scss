@@ -1,0 +1,52 @@
+@import "../vars/colors.scss";
+
+.rb-tabs-control {
+  > ul.nav-tabs {
+    display: table;
+    width: 100%;
+    border: none;
+    table-layout: fixed;
+
+    .rb-tab {
+      display: table-cell;
+      float: none;
+      width: 100%;
+      background-color: $grey;
+
+      +.rb-tab {
+        border-left: 1px solid $grey-blue-dark;
+      }
+
+      &.active {
+        background-color: $grey-blue-dark;
+
+        &:hover {
+          background-color: $grey-blue-dark;
+        }
+      }
+
+      &:hover {
+        background-color: $grey-dark;
+      }
+
+      > a {
+        min-height: 70px;
+        max-height: 110px;
+        padding-top: 15px;
+        padding-left: 20px;
+        margin: 0;
+        font-weight: bold;
+        color: $white;
+        background-color: transparent;
+        border: none;
+        border-radius: unset;
+        outline: none;
+      }
+    }
+  }
+
+  .tab-content {
+    min-height: 690px;
+    padding: 25px 0;
+  }
+}
