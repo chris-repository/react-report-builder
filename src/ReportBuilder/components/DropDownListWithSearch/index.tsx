@@ -3,6 +3,7 @@ import { IGraphNode } from 'peekdata-datagateway-api-sdk';
 import React from 'react';
 import Select from 'react-select';
 import { isGraphNode } from 'src/ReportBuilder/models/graph';
+import 'src/style/components/dropDownListWithSearch.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 

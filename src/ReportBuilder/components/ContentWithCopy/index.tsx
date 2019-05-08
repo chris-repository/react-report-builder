@@ -2,6 +2,7 @@ import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Languages } from 'src/ReportBuilder/constants/languages';
+import 'src/style/components/contentWithCopy.scss';
 import { chalk } from 'src/style/highlighterThemes/chalk';
 
 // #region -------------- Interfaces -------------------------------------------------------------------

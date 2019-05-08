@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import React from 'react';
 import { ISortGraphNodePayload } from 'src/ReportBuilder/state/actions';
+import 'src/style/components/reportOptionsList.scss';
 import { ISortableListProps, SortableList } from './SortableList';
 
 // #region -------------- Interfaces -------------------------------------------------------------------

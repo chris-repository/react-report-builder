@@ -6,6 +6,7 @@ import { ChartTypes } from 'src/ReportBuilder/models/chart';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
 import { translate } from 'src/ReportBuilder/translations';
 import { colorizeChart, colorizeOvalChart, customizeOvalChartLabel, generateChartColors, getChartLabels, getDataIndexes, getDataSets } from 'src/ReportBuilder/utils/Chart';
+import 'src/style/components/dashboards.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 

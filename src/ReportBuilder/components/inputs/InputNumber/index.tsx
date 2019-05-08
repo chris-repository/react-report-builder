@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import 'src/style/components/inputNumber.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 

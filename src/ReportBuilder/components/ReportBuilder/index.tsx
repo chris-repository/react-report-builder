@@ -140,16 +140,20 @@ class ReportBuilder extends React.PureComponent<IProps> {
 
   public render() {
     return (
-      <Fragment>
-        {this.renderGraphDropDowns()}
+      <div className='rb-report-builder-container'>
+        <div className='rb-content'>
+          <div className='container'>
+            {this.renderGraphDropDowns()}
 
-        <div className='rb-report-container'>
-          {this.renderLoader()}
-          {this.renderError()}
-          {this.renderReportBuilderContent()}
+            <div className='rb-report-container'>
+              {this.renderLoader()}
+              {this.renderError()}
+              {this.renderReportBuilderContent()}
+            </div>
+
+          </div>
         </div>
-
-      </Fragment>
+      </div>
     );
   }
 

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Spinner } from 'src/ReportBuilder/components/Spinner';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
+import 'src/style/components/viewDropDowns.scss';
 import { ViewRequest } from './ViewRequest';
 import { ViewResponse } from './ViewResponse';
 

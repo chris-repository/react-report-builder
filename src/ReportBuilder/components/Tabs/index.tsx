@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { Spinner } from 'src/ReportBuilder/components/Spinner';
+import 'src/style/components/tabs.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 

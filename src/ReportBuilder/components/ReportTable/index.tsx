@@ -1,6 +1,8 @@
 import { IOptimizedReportResponse } from 'peekdata-datagateway-api-sdk';
 import React from 'react';
 import ReactTable, { Column } from 'react-table';
+import 'react-table/react-table.css';
+import 'src/style/components/table.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 

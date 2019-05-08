@@ -1,7 +1,19 @@
 const ExternalModuleFactoryPlugin = require('webpack/lib/ExternalModuleFactoryPlugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 const dependencies = Object.keys(packageJson.dependencies);
+
+class DependenciesAsExternalsPlugin {
+  apply(compiler) {
+    compiler.hooks.compile.tap('compile', params => {
+      new ExternalModuleFactoryPlugin(
+        compiler.options.output.libraryTarget,
+        dependencies
+      ).apply(params.normalModuleFactory);
+    });
+  }
+}
 
 module.exports = {
   entry: "./src/index.ts",
@@ -21,28 +33,43 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
       {
-        test: [/\.gif$/],
-        loader: require.resolve('url-loader'),
+        test: /\.tsx?$/,
+        loader: "awesome-typescript-loader",
+      },
+      {
+        test: /\.js$/,
+        loader: "source-map-loader",
+        enforce: "pre"
+      },
+      {
+        test: /\.(css|scss)$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          'sass-loader',
+        ]
+      },
+      {
+        test: [/\.(gif|svg)$/],
+        loader: 'url-loader',
         options: {
-          limit: 10000,
-          name: 'static/media/[name].[hash:8].[ext]',
+          name: 'static/images/[name].[hash:8].[ext]',
         },
       },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        loader: 'url-loader',
+        options: {
+          name: 'static/fonts/[name].[hash:8].[ext]',
+        },
+      }
     ]
   },
   plugins: [
-    {
-      apply(compiler) {
-        compiler.hooks.compile.tap('compile', params => {
-          new ExternalModuleFactoryPlugin(
-            compiler.options.output.libraryTarget,
-            dependencies
-          ).apply(params.normalModuleFactory);
-        });
-      }
-    },
+    new DependenciesAsExternalsPlugin(),
+    new MiniCssExtractPlugin(),
   ],
 };

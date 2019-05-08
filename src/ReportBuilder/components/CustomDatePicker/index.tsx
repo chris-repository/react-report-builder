@@ -1,7 +1,9 @@
 import moment from 'moment';
 import React from 'react';
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { dateTime } from 'src/ReportBuilder/constants/dateTime';
+import 'src/style/components/customDatePicker.scss';
 import { DatePickerIcon } from './DatePickerIcon';
 
 // #region -------------- Interfaces -------------------------------------------------------------------

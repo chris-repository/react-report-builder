@@ -8,6 +8,7 @@ import { FilterOptionTypes, FilterTypes, IFilter } from 'src/ReportBuilder/model
 import { IDimension } from 'src/ReportBuilder/models/graph';
 import { IChangeFilterInput, ISelectFilter } from 'src/ReportBuilder/state/actions';
 import { translate } from 'src/ReportBuilder/translations';
+import 'src/style/components/filterControl.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
