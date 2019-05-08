@@ -32,7 +32,7 @@ You will also need to require the CSS file from this package (or provide your ow
 import React from 'react';
 import { ReportBuilder } from 'react-report-builder';
 
-import 'react-report-builder/lib/react-report-builder.min.css';
+import 'react-report-builder/lib/main.css';
 
 const apiRequestOptions = {
   baseUrl: 'https://demo.peekdata.io:8443/datagateway/rest/v1',
