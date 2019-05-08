@@ -43,6 +43,6 @@
       "spaces"
     ],
     "lines-between-class-members": true,
-    "no-any": true
+    "no-any": false
   }
 }
