@@ -1,3 +1,5 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import React from 'react';
 
@@ -6,7 +8,7 @@ import React from 'react';
 interface IProps {
   title: string;
   styleClasses: string;
-  iconClasses: string;
+  icon: IconProp;
   disabled?: boolean;
   onClick?: () => void;
 }
@@ -17,7 +19,7 @@ interface IProps {
 
 export class ButtonWithIcon extends React.PureComponent<IProps> {
   public render() {
-    const { styleClasses, disabled } = this.props;
+    const { styleClasses, disabled, icon, title } = this.props;
 
     return (
       <a className={
@@ -27,8 +29,8 @@ export class ButtonWithIcon extends React.PureComponent<IProps> {
         }, styleClasses)}
         onClick={this.onClick}
       >
-        <i className={this.props.iconClasses} />
-        {this.props.title}
+        <i><FontAwesomeIcon icon={icon} /></i>
+        {title}
       </a>
     );
   }

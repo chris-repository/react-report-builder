@@ -1,3 +1,5 @@
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import { IGraphNode, ReportColumnType } from 'peekdata-datagateway-api-sdk';
 import React from 'react';
@@ -47,7 +49,7 @@ export class DragHandle extends React.PureComponent<ISortableItemProps> {
         {this.renderSortButton()}
 
         <div className='rb-btn-close' onClick={() => onOptionUnselected({ value: selectedOption.value, optionType })} >
-          <i className='fas fa-times-circle' />
+          <i><FontAwesomeIcon icon={faTimesCircle} /></i>
         </div>
       </div>
     );

@@ -1,3 +1,5 @@
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -14,7 +16,7 @@ export class DatePickerIcon extends React.PureComponent<IProps> {
   public render() {
     return (
       <div className='rb-datepicker-icon' onClick={this.props.onClick} >
-        <i className='far fa-calendar-alt' />
+        <i><FontAwesomeIcon icon={faCalendarAlt} /></i>
       </div>
     );
   }

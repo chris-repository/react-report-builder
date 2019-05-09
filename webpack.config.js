@@ -3,14 +3,21 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
 const packageJson = require(path.resolve(process.cwd(), 'package.json'));
+const includeModules = [
+  '@fortawesome/fontawesome-svg-core',
+  '@fortawesome/free-solid-svg-icons',
+  '@fortawesome/react-fontawesome'
+];
 const dependencies = Object.keys(packageJson.dependencies);
+const devDependencies = Object.keys(packageJson.devDependencies);
+const externalModules = dependencies.concat(devDependencies).filter(d => includeModules.findIndex(m => m === d) === -1);
 
 class DependenciesAsExternalsPlugin {
   apply(compiler) {
     compiler.hooks.compile.tap('compile', params => {
       new ExternalModuleFactoryPlugin(
         compiler.options.output.libraryTarget,
-        dependencies
+        externalModules
       ).apply(params.normalModuleFactory);
     });
   }
