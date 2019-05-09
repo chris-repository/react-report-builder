@@ -5,6 +5,7 @@
     "reinstall:react-report-builder": "npm install ../react-report-builder.tgz --force"
   },
   "dependencies": {
+    "isomorphic-fetch": "2.2.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-report-builder": "file:../react-report-builder.tgz"
