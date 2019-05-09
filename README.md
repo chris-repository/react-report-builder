@@ -40,13 +40,11 @@ const apiRequestOptions = {
 };
 
 export class App extends React.Component {
-    render() {
-        return (
-        	<ReportBuilder
-            	apiRequestOptions={apiRequestOptions}
-            />
-        );
-    }
+  render() {
+    return (
+      <ReportBuilder apiRequestOptions={apiRequestOptions} />
+    );
+  }
 }
 ```
 
