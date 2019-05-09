@@ -141,17 +141,12 @@ class ReportBuilder extends React.PureComponent<IProps> {
   public render() {
     return (
       <div className='rb-report-builder-container'>
-        <div className='rb-content'>
-          <div className='container'>
-            {this.renderGraphDropDowns()}
+        {this.renderGraphDropDowns()}
 
-            <div className='rb-report-container'>
-              {this.renderLoader()}
-              {this.renderError()}
-              {this.renderReportBuilderContent()}
-            </div>
-
-          </div>
+        <div className='rb-report-container'>
+          {this.renderLoader()}
+          {this.renderError()}
+          {this.renderReportBuilderContent()}
         </div>
       </div>
     );
@@ -485,3 +480,4 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
 // #endregion
 
 export { connected as ReportBuilder };
+

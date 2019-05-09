@@ -29,7 +29,12 @@
       "src/*": [
         "src/*"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "transform": "ts-transformer-imports"
+      }
+    ]
   },
   "files": [
     "src/index.ts"

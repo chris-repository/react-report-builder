@@ -1,5 +1,6 @@
 const ExternalModuleFactoryPlugin = require('webpack/lib/ExternalModuleFactoryPlugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
 const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 const dependencies = Object.keys(packageJson.dependencies);
@@ -26,16 +27,18 @@ module.exports = {
   devtool: "source-map",
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
-    alias: {
-      src: path.resolve('src'),
-      images: path.resolve('src/assets/images'),
-    },
+    plugins: [
+      new TsconfigPathsPlugin()
+    ],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         loader: "awesome-typescript-loader",
+        options: {
+          compiler: 'ttypescript'
+        }
       },
       {
         test: /\.js$/,
