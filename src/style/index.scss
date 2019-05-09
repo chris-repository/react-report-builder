@@ -1,1 +1,418 @@
-// TODO: add report builder styles
+@import "vars/colors.scss";
+@import "vars/layout.scss";
+
+// --------------- Fonts -------------------------------------
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
+
+// --------------- Common ------------------------------------
+html {
+  overflow-y: scroll;
+}
+
+body {
+  font-family: 'Lato';
+  font-size: 15px;
+}
+
+h1 {
+  max-width: 800px;
+  margin: 0 auto 30px auto;
+  line-height: 38px;
+  font-size: 30px;
+  font-weight: 900;
+  text-align: center;
+}
+
+#root {
+  > .rb-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.rb-page-vertical-centered {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 15px;
+  padding-right: 15px;
+  overflow: hidden;
+}
+
+.rb-content {
+  padding: 60px 0;
+}
+
+.rb-title-dark {
+  color: $grey-blue-dark;
+
+  > span {
+    font-weight: normal;
+    color: $grey;
+  }
+}
+
+.rb-title-extra-large {
+  font-size: 100px;
+  font-weight: bold;
+
+  @media #{$rb-screen-xs} {
+    font-size: 70px;
+  }
+
+  @media only screen and (max-width: 575px) {
+    font-size: 45px;
+  }
+}
+
+.rb-title-large {
+  font-size: 55px;
+  font-weight: 900;
+
+  @media #{$rb-screen-xs} {
+    font-size: 40px;
+  }
+}
+
+.rb-title-medium {
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.rb-title-small {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.rb-title-extra-small {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.rb-text-dark {
+  &.rb-text-normal {
+    font-size: 16px;
+    line-height: 30px;
+    font-weight: 300;
+
+    @media #{$rb-screen-xs} {
+      font-size: 15px;
+    }
+  }
+
+  &.rb-text-small {
+    font-size: 13px;
+    line-height: 22px;
+  }
+}
+
+.rb-input {
+  height: 36px;
+  padding: 0 10px;
+  font-size: 14px;
+  border: 1px solid $grey-dark;
+  outline: none;
+
+  &:disabled {
+    background: transparent;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: $grey;
+  }
+}
+
+.btn {
+  outline: none;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &:focus:active {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.rb-btn-large,
+.rb-btn-medium,
+.rb-btn-small {
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 24px;
+  border: none;
+  border-radius: 30px;
+  text-align: center;
+  white-space: normal;
+
+  @media #{$rb-screen-xs} {
+    padding: 10px 17px;
+    font-size: 17px;
+  }
+
+  > i {
+    margin-left: -5px;
+    margin-right: 10px;
+  }
+
+  + .rb-btn-large,
+  + .rb-btn-medium {
+    margin-left: 15px;
+  }
+
+  + .rb-btn-small {
+    margin-left: 10px;
+  }
+}
+
+.rb-btn-medium {
+  font-size: 16px;
+  padding: 12px 30px;
+}
+
+.rb-btn-small {
+  font-size: 14px;
+  padding: 7px 20px;
+}
+
+.rb-btn-crimson {
+  color: $caramel !important;
+  background-color: $crimson-light;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+  transition: background-color 0.3s;
+
+  &:focus {
+    outline: none;
+    color: $caramel !important;
+    background-color: $crimson-light;
+  }
+
+  &:hover,
+  &:active {
+    outline: none;
+    color: $caramel !important;
+    background-color: $crimson-dark;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: unset !important;
+    cursor: not-allowed;
+
+    &:focus,
+    &:active,
+    &:active:hover,
+    &:focus:active {
+      background-color: $crimson-light;
+    }
+  }
+}
+
+.rb-btn-caramel-dashed {
+  color: $dark-caramel !important;
+  background-color: rgba(244,210,182, 0.3);
+  border: 1px $dark-caramel dashed;
+  border-radius: 4px;
+  box-shadow: none !important;
+  outline: none !important;
+
+  &.rb-btn-large {
+    padding: 14px 29px;
+  }
+
+  &.rb-btn-medium {
+    padding: 11px 29px;
+  }
+
+  &.rb-btn-small {
+    padding: 5px 19px;
+  }
+}
+
+.rb-split-btn {
+  display: inline-block;
+
+  .btn {
+    font-size: 15px;
+    border-radius: 0;
+    background-color: $white;
+    border-color: $crimson-dark;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background-color: $white;
+      border-color: $crimson-dark;
+      outline: none;
+    }
+
+    + .dropdown-toggle {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  }
+
+  .caret {
+    border-top-color: $crimson-dark;
+  }
+
+  .open {
+    .btn {
+      background-color: $white;
+      border-color: $crimson-dark;
+      box-shadow: none;
+
+      &:hover,
+      &:focus {
+        background-color: $white;
+        border-color: $crimson-dark;
+      }
+    }
+
+    .caret {
+      border-bottom: 4px dashed $crimson-dark;
+      border-top: none;
+    }
+  }
+
+  .dropdown-menu {
+    min-width: 100%;
+    top: calc(100% - 1px);
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    li {
+      &:first-child {
+        a {
+          border-top: 1px solid $grey-light;
+        }
+      }
+
+      a {
+        padding: 7px 15px;
+        font-size: 15px;
+        border: 1px solid $grey-light;
+        border-top: none;
+        outline: none;
+
+        &:hover {
+          color: $crimson-dark;
+          background-color: $grey-lighter;
+        }
+      }
+    }
+  }
+}
+
+.rb-btn-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+
+  button {
+    padding: 6px 15px;
+    font-weight: bold;
+    color: $grey-blue-dark;
+    background-color: $white;
+    border: 1px solid $grey;
+    border-right: none;
+    border-radius: 0;
+
+    &:hover {
+      color: $crimson-dark;
+    }
+
+    &:first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-right: 1px solid $grey;
+    }
+  }
+
+  .btn-active {
+    color: $caramel;
+    background-color: $crimson-light;
+    border-color: $crimson-light;
+
+    &:last-child {
+      border-right-color: $crimson-light;
+    }
+
+    + button {
+      border-left-color: $crimson-light;
+    }
+
+    &:hover {
+      color: $caramel;
+    }
+  }
+}
+
+.rb-spinner {
+  text-align: center;
+
+  > img {
+    max-height: 40px;
+  }
+}
+
+.rb-intro-text {
+  max-width: 900px;
+  text-align: center;
+  margin: 0 auto;
+  padding-top: 45px;
+  padding-bottom: 75px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.rb-form-group {
+  + .rb-form-group {
+    margin-top: 15px;
+  }
+}
+
+.rb-form-horizontal-group {
+  display: flex;
+  align-items: center;
+}
+
+.rb-modal {
+  width: 100%;
+  max-width: 600px;
+  padding: 25px;
+  border-radius: 4px;
+
+  .rb-close-button {
+    outline: none;
+  }
+
+  .rb-title-dark {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+
+.alert {
+  white-space: pre-wrap;
+}

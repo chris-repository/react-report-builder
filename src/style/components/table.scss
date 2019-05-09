@@ -1,0 +1,77 @@
+@import "../vars/colors.scss";
+
+.rb-table {
+ .ReactTable {
+    border: none;
+
+    .rt-table {
+      .rt-thead {
+        .rt-tr {
+          .rt-th {
+            padding: 10px 15px;
+            font-weight: bold;
+            color: $white;
+            background-color: $grey;
+            border: none;
+            border-left: 1px solid $grey-blue-dark;
+            outline: none;
+
+            &:first-child {
+              border-left: none;
+            }
+
+            &.-sort-desc {
+              box-shadow: inset 0 -3px 0 0 $grey-blue-dark;
+            }
+
+            &.-sort-asc {
+              box-shadow: inset 0 3px 0 0 $grey-blue-dark;
+            }
+          }
+        }
+      }
+    }
+
+    .pagination-bottom {
+      .-btn {
+        font-weight: bold;
+        color: $caramel;
+        background-color: $crimson-light;
+        transition: background-color 0.3s;
+
+        &:hover,
+        &:active {
+          color: $caramel;
+          background-color: $crimson-dark;
+        }
+
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+.rb-reports-table {
+  .rt-tr-group {
+    cursor: pointer;
+
+    &:hover {
+      color: $crimson-dark;
+    }
+  }
+
+  .rb-report-actions {
+    text-align: center;
+
+    > div {
+      display: inline-block;
+      padding: 0 10px;
+
+      &:hover {
+        color: $grey-blue-dark;
+      }
+    }
+  }
+}

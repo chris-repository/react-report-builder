@@ -1,0 +1,201 @@
+@import "../vars/colors.scss";
+@import "../vars/layout.scss";
+
+.rb-filter-control {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid $grey-light;
+
+  &:last-of-type {
+    border: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .rb-btn-filter-remove {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 16px;
+    border: 1px solid $grey-dark;
+    vertical-align: top;
+    cursor: pointer;
+
+    &:hover {
+      > i {
+        color: $crimson-dark;
+      }
+    }
+  }
+
+  .rb-filter-dropdown,
+  .rb-filter-value {
+    display: inline-block;
+    width: 279px;
+    margin-left: 10px;
+    vertical-align: top;
+
+    @media #{$rb-screen-md-until} {
+      width: 100%;
+      margin-top: 10px;
+      margin-left: 0;
+    }
+
+    &.rb-filter-multi {
+      padding: 15px 0 0 46px;
+      margin-left: 0;
+      width: 100%;
+
+      @media #{$rb-screen-md-until} {
+        padding: 0;
+      }
+
+      .rb-dropdown-with-search__control {
+        height: auto;
+        min-height: 36px;
+      }
+
+      .rb-dropdown-with-search__value-container--is-multi {
+        padding-top: 5px;
+
+        > div {
+          &:last-child {
+            margin-top: -5px;
+          }
+        }
+      }
+
+      .rb-dropdown-with-search__multi-value {
+        margin: 0 5px 5px 0;
+        background-color: $white;
+        border: 1px solid $grey-light;
+        border-radius: 4px;
+
+        .rb-dropdown-with-search__multi-value__label {
+          padding: 1px 8px;
+        }
+
+        .rb-dropdown-with-search__multi-value__remove {
+          padding-left: 0;
+          color: $black;
+          background-color: $white;
+
+          &:hover {
+            color: $crimson-dark;
+          }
+        }
+      }
+    }
+  }
+
+  .rb-dropdown-container {
+    margin-bottom: 0;
+
+    &.rb-show-list {
+      > .rb-dropdown-display {
+        .rb-selection-icon {
+          > div {
+            border-color: transparent transparent $grey-dark transparent;
+          }
+        }
+      }
+    }
+
+    > .rb-dropdown-display {
+      border: 1px solid $grey-dark;
+
+      .rb-selection-icon {
+        > div {
+          border-color: $grey-dark transparent transparent transparent;
+        }
+      }
+    }
+  }
+
+  .rb-dropdown-with-search-container {
+    margin-bottom: 0;
+    line-height: 20px;
+
+    .rb-dropdown-with-search__control {
+      border: 1px solid $grey-dark;
+
+      .rb-dropdown-with-search__indicators {
+        .rb-dropdown-with-search__dropdown-indicator {
+          &::after {
+            border-color: $grey transparent transparent transparent;
+          }
+        }
+
+        .rb-dropdown-with-search__clear-indicator {
+          color: $grey;
+          padding: 0;
+        }
+      }
+    }
+
+    .rb-dropdown-with-search__control--is-focused {
+      .rb-dropdown-with-search__indicators {
+        .rb-dropdown-with-search__dropdown-indicator {
+          &::after {
+            border-color: transparent transparent $grey transparent;
+          }
+        }
+      }
+    }
+  }
+
+  .rb-filter-values {
+    padding: 15px 0 0 46px;
+
+    @media #{$rb-screen-md-until} {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    p {
+      margin-bottom: 5px;
+      font-size: 13px;
+      line-height: 15px;
+    }
+
+    input {
+      width: 100%;
+    }
+  }
+
+  .rb-filter-value {
+    input {
+      width: 100%;
+    }
+  }
+
+  .rb-date-ranges-filter {
+    @media #{$rb-screen-md} {
+      padding-left: 46px;
+    }
+
+    > div {
+      display: inline-block;
+      margin-top: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      @media #{$rb-screen-md} {
+        margin-right: 10px;
+      }
+
+      @media #{$rb-screen-md-until} {
+        display: block;
+      }
+
+      label {
+        @media #{$rb-screen-md-until} {
+          width: 38px;
+        }
+      }
+    }
+  }
+}

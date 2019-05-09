@@ -1,0 +1,63 @@
+@import "../vars/layout.scss";
+
+.rb-view-dropdowns-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: flex-end;
+
+  @media #{$rb-screen-md-until} {
+    display: block;
+  }
+
+  > * {
+    + * {
+      margin-left: 10px;
+
+      @media #{$rb-screen-md-until} {
+        margin-left: 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .rb-spinner {
+    img {
+      max-height: 35px;
+    }
+
+    @media #{$rb-screen-md-until} {
+      position: absolute;
+      z-index: 100;
+      left: 5px;
+      bottom: 5px;
+
+      img {
+        max-height: 25px;
+      }
+    }
+  }
+
+  .rb-view-request-dropdown-container,
+  .rb-view-response-dropdown-container {
+    margin-bottom: 20px;
+
+    .rb-split-btn {
+      display: block;
+    }
+
+    .dropdown {
+      min-width: 300px;
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+
+      .btn {
+        &:first-child {
+          flex: 1;
+        }
+      }
+    }
+  }
+}

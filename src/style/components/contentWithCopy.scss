@@ -1,0 +1,27 @@
+@import "../vars/colors.scss";
+
+.rb-content-with-copy-container {
+  .rb-content-with-copy {
+    max-height: 550px;
+    border: 1px solid $grey-light;
+    overflow: auto;
+
+    pre {
+      border: none;
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+
+  .rb-btn-container {
+    text-align: right;
+    margin-top: 20px;
+
+    .alert {
+      height: 38px;
+      padding: 7px 15px;
+      margin: 0;
+      text-align: left;
+    }
+  }
+}

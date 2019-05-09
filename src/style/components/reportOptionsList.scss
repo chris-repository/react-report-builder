@@ -1,0 +1,23 @@
+@import "../vars/colors.scss";
+@import "../vars/layout.scss";
+
+.rb-report-options {
+  padding: 15px 0 0 15px;
+  margin-bottom: 20px;
+  border: 1px solid $crimson-dark;
+
+  .rb-report-no-option {
+    text-align: left;
+  }
+
+  .rb-btn-container {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 !important;
+    margin-bottom: 15px !important;
+  }
+
+  @media #{$rb-screen-xs} {
+    padding: 15px 30px 0 15px;
+  }
+}

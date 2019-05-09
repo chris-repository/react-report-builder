@@ -1,19 +1,25 @@
-import * as React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
+import { Provider } from 'react-redux';
+import 'src/style/containers/reportBuilder.scss';
+import 'src/style/index.scss';
+import { IReportBuilderProps, ReportBuilder as ReportBuilderInner } from './components/ReportBuilder';
+import { configureStore } from './state/configureStore';
 
-// #region -------------- Interfaces -------------------------------------------------------------------
+// #region -------------- Store -------------------------------------------------------------------
 
-interface IProps {
-
-}
+const store = configureStore();
 
 // #endregion
 
-// #region -------------- Report builder app -------------------------------------------------------------------
+// #region -------------- Component -------------------------------------------------------------------
 
-export class ReportBuilder extends React.Component<IProps> {
+export class ReportBuilder extends React.PureComponent<IReportBuilderProps> {
   public render() {
     return (
-      <div>React report builder</div>
+      <Provider store={store}>
+        <ReportBuilderInner {...this.props} />
+      </Provider>
     );
   }
 }
