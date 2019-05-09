@@ -1,4 +1,4 @@
-import { ICompatibilityRequest, IGraphNode, IGraphReportCompatibility, INotOptimizedReportResponse, IOptimizedReportResponse, IReportRequest, IReportRequestSortings } from 'peekdata-datagateway-api-sdk';
+import { ICompatibilityRequest, IGraphNode, IGraphReportCompatibility, INotOptimizedReportResponse, IOptimizedReportResponse, IReportRequest, IReportRequestSortings, PeekdataError } from 'peekdata-datagateway-api-sdk';
 import { all, put, select, take, takeLatest } from 'redux-saga/effects';
 import { rows } from 'src/ReportBuilder/constants/rows';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
@@ -178,7 +178,7 @@ export function* onLoadScopeNames() {
     yield put(scopeNamesLoaded({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -202,7 +202,7 @@ export function* onLoadGraphNames(action: IAction<string>) {
     yield put(graphNamesLoaded({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -234,7 +234,7 @@ export function* onLoadDimensions(action: IAction<ILoadGraphNodesPayloadRequest>
     yield put(dimensionsLoaded({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -266,7 +266,7 @@ export function* onLoadMetrics(action: IAction<ILoadGraphNodesPayloadRequest>) {
     yield put(metricsLoaded({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -299,8 +299,8 @@ export function* onCheckCompatibility() {
 
     const compatibility: IGraphReportCompatibility = yield peekdataApi.compatibility.getCompatibleNodes(compatibilityRequest);
 
-    if (compatibility && compatibility.reason) {
-      throw new Error(compatibility.reason);
+    if (compatibility && (compatibility.reason || compatibility.errorCode)) {
+      throw new PeekdataError(compatibility.reason, compatibility.errorCode);
     }
 
     yield put(compatibilityChecked({
@@ -352,7 +352,7 @@ export function* onCheckCompatibility() {
     yield put(compatibilityChecked({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -376,7 +376,7 @@ export function* onLoadDataFull(action: IAction<IReportRequest>) {
     yield put(dataFullLoaded({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -400,7 +400,7 @@ export function* onLoadDataOptimized(action: IAction<IReportRequest>) {
     yield put(dataOptimizedLoaded({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -424,7 +424,7 @@ export function* onLoadCsvFile(action: IAction<IReportRequest>) {
     yield put(csvFileLoaded({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -448,7 +448,7 @@ export function* onLoadSelect(action: IAction<IReportRequest>) {
     yield put(selectLoaded({
       data: null,
       isFetching: false,
-      error: error.message,
+      error: error.toString(),
       errorTimestamp: new Date(),
     }));
   }
