@@ -28,7 +28,7 @@ or
 
 You will also need to require the CSS file from this package (or provide your own). The example below shows how to use it in your app and include the CSS from this package if your build system supports requiring CSS files:
 
-```react
+```javascript
 import React from 'react';
 import { ReportBuilder } from 'react-report-builder';
 
