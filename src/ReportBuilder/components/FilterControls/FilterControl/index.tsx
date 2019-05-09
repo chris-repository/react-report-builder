@@ -1,3 +1,5 @@
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import { ReportFilterOperationType } from 'peekdata-datagateway-api-sdk';
 import React, { ChangeEvent } from 'react';
@@ -81,7 +83,7 @@ export class FilterControl extends React.PureComponent<IProps> {
   private renderRemoveFilterButton() {
     return (
       <span className='rb-btn-filter-remove' onClick={this.onFilterRemoveClicked}>
-        <i className='fas fa-trash-alt' />
+        <i><FontAwesomeIcon icon={faTrashAlt} /></i>
       </span>
     );
   }

@@ -1,3 +1,4 @@
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { connect } from 'react-redux';
 import { ButtonWithIcon } from 'src/ReportBuilder/components/ButtonWithIcon';
@@ -58,7 +59,7 @@ class FilterControls extends React.PureComponent<IProps> {
           <ButtonWithIcon
             title='Add filter'
             styleClasses='rb-btn-small rb-btn-crimson'
-            iconClasses='fas fa-plus-circle'
+            icon={faPlusCircle}
             onClick={onFilterAddClicked}
           />
         </div>

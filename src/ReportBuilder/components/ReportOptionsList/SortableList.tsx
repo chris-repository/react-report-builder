@@ -1,3 +1,4 @@
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { ReportColumnType } from 'peekdata-datagateway-api-sdk';
 import React from 'react';
 import { SortableContainer } from 'react-sortable-hoc';
@@ -62,7 +63,7 @@ class SortableList extends React.PureComponent<ISortableListProps> {
             <ButtonWithIcon
               title={buttonTitle}
               styleClasses='rb-btn-small rb-btn-caramel-dashed'
-              iconClasses='fas fa-plus-circle'
+              icon={faPlusCircle}
               onClick={() => onOptionAdded(optionType)}
             />
           </div>}

@@ -1,3 +1,6 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { faMinus, faSortAlphaDown, faSortAlphaUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReportSortDirectionType } from 'peekdata-datagateway-api-sdk';
 import React from 'react';
 
@@ -12,23 +15,23 @@ interface IProps {
 // #region -------------- Component -------------------------------------------------------------------
 
 export const SortButton: React.SFC<IProps> = ({ sorting }) => (
-  <i className={getClassName(sorting)} />
+  <i><FontAwesomeIcon icon={getIcon(sorting)} /></i>
 );
 
 // #endregion
 
 // #region -------------- Selectors -------------------------------------------------------------------
 
-const getClassName = (sorting: ReportSortDirectionType): string => {
+const getIcon = (sorting: ReportSortDirectionType): IconProp => {
   switch (sorting) {
     case ReportSortDirectionType.ASC:
-      return 'fas fa-sort-alpha-down';
+      return faSortAlphaDown;
 
     case ReportSortDirectionType.DESC:
-      return 'fas fa-sort-alpha-up';
+      return faSortAlphaUp;
 
     default:
-      return 'fas fa-minus';
+      return faMinus;
   }
 };
 

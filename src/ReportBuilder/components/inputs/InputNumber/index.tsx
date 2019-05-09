@@ -1,3 +1,5 @@
+import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ChangeEvent } from 'react';
 import 'src/style/components/inputNumber.scss';
 
@@ -21,7 +23,7 @@ export class InputNumber extends React.PureComponent<IProps> {
     return (
       <div className='rb-number-input'>
         <div className='rb-btn-crimson rb-btn-number rb-btn-decrease' onClick={this.decreaseValue}>
-          <i className='fas fa-minus-circle' />
+          <i><FontAwesomeIcon icon={faMinusCircle} /></i>
         </div>
 
         <input
@@ -34,7 +36,7 @@ export class InputNumber extends React.PureComponent<IProps> {
         />
 
         <div className='rb-btn-crimson rb-btn-number rb-btn-increase' onClick={this.increaseValue}>
-          <i className='fas fa-plus-circle' />
+          <i><FontAwesomeIcon icon={faPlusCircle} /></i>
         </div>
       </div>
     );
