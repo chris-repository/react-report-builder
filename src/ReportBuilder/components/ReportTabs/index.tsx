@@ -1,4 +1,4 @@
-import { IOptimizedReportResponse } from 'peekdata-datagateway-api-sdk';
+import { IOptimizedReportResponse, IReportRequest } from 'peekdata-datagateway-api-sdk';
 import React, { Fragment, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { translate } from 'src/ReportBuilder//translations';
@@ -7,9 +7,9 @@ import { ReportTable } from 'src/ReportBuilder/components/ReportTable';
 import { ITab, TabsControl as Tabs } from 'src/ReportBuilder/components/Tabs';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
+import { loadDataOptimized } from 'src/ReportBuilder/state/actions';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
 import { Spinner } from '../Spinner';
-import { ReportTabContent, TabContentType } from './ReportTabContent';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -17,9 +17,12 @@ interface IStateProps {
   selectedDimensions: ISelectedGraphNode[];
   selectedMetrics: ISelectedGraphNode[];
   dataOptimized: IAsyncState<IOptimizedReportResponse>;
+  request: IReportRequest;
 }
 
-interface IDispatchProps { }
+interface IDispatchProps {
+  onLoadOptimizedData: (request: IReportRequest) => void;
+}
 
 interface IDefaultProps {
   showDataTabs: boolean;
@@ -47,6 +50,14 @@ class ReportTabs extends React.PureComponent<IProps> {
     loader: <Spinner />,
   };
 
+  public componentDidMount() {
+    this.loadOptimizedData();
+  }
+
+  public componentDidUpdate() {
+    this.loadOptimizedData();
+  }
+
   public render() {
     const { showChart, showDataTable } = this.props;
 
@@ -60,6 +71,14 @@ class ReportTabs extends React.PureComponent<IProps> {
         {this.renderWithoutTabs()}
       </Fragment>
     );
+  }
+
+  private loadOptimizedData = () => {
+    const { request, dataOptimized, onLoadOptimizedData } = this.props;
+
+    if (request && (!dataOptimized || (!dataOptimized.data && !dataOptimized.error && !dataOptimized.isFetching))) {
+      onLoadOptimizedData(request);
+    }
   }
 
   // #region -------------- Tabs -------------------------------------------------------------------
@@ -138,9 +157,9 @@ class ReportTabs extends React.PureComponent<IProps> {
 
   private renderChartTab = () => {
     return (
-      <ReportTabContent contentType={TabContentType.dataOptimized}>
+      <div className='rb-report-tab-content'>
         {this.renderChart()}
-      </ReportTabContent>
+      </div>
     );
   }
 
@@ -167,9 +186,9 @@ class ReportTabs extends React.PureComponent<IProps> {
 
   private renderTableTab = () => {
     return (
-      <ReportTabContent contentType={TabContentType.dataOptimized}>
+      <div className='rb-report-tab-content'>
         {this.renderDataTable()}
-      </ReportTabContent>
+      </div>
     );
   }
 
@@ -195,12 +214,18 @@ class ReportTabs extends React.PureComponent<IProps> {
 
 const connected = connect<IStateProps, IDispatchProps, IOwnProps, IReportBuilderState>(
   (state) => {
-    const { dataOptimized, selectedDimensions, selectedMetrics } = state;
+    const { dataOptimized, selectedDimensions, selectedMetrics, request } = state;
 
     return {
       selectedDimensions,
       selectedMetrics,
       dataOptimized,
+      request,
+    };
+  },
+  (dispatch) => {
+    return {
+      onLoadOptimizedData: (request: IReportRequest) => dispatch(loadDataOptimized(request)),
     };
   },
 )(ReportTabs);

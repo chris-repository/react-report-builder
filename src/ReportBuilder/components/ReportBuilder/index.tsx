@@ -8,6 +8,7 @@ import { ReportTabs } from 'src/ReportBuilder/components/ReportTabs';
 import { RowsLimitInput } from 'src/ReportBuilder/components/RowsLimitInput';
 import { Spinner } from 'src/ReportBuilder/components/Spinner';
 import { ViewDropDowns } from 'src/ReportBuilder/components/ViewDropDowns';
+import { defaultRows, setRowsDefaultLimit, setRowsDefaultOffset } from 'src/ReportBuilder/constants/rows';
 import { IDimension, IMetric, ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
 import { initPeekdataApi } from 'src/ReportBuilder/services/api';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
@@ -49,15 +50,17 @@ interface IDispatchProps {
 }
 
 interface IDefaultProps {
-  showTitle: boolean;
   showContentTitle: boolean;
   loader: ReactNode;
   showScopesDropdown: boolean;
   showGraphsDropdown: boolean;
   showDimensionsList: boolean;
+  showMetricsList: boolean;
   showFilters: boolean;
   showRowsOffset: boolean;
   showRowsLimit: boolean;
+  defaultRowsOffset: number;
+  defaultRowsLimit: number;
   maxRowsLimit: number;
   showRequestViewButton: boolean;
   showResponseViewButton: boolean;
@@ -82,15 +85,17 @@ interface IProps extends IStateProps, IDispatchProps, IReportBuilderProps { }
 class ReportBuilder extends React.PureComponent<IProps> {
 
   public static defaultProps: IDefaultProps = {
-    showTitle: true,
     showContentTitle: true,
     loader: <Spinner />,
     showScopesDropdown: true,
     showGraphsDropdown: true,
     showDimensionsList: true,
+    showMetricsList: true,
     showFilters: true,
     showRowsOffset: true,
     showRowsLimit: true,
+    defaultRowsOffset: defaultRows.offset,
+    defaultRowsLimit: defaultRows.limit,
     maxRowsLimit: 10000,
     showRequestViewButton: true,
     showResponseViewButton: true,
@@ -103,14 +108,19 @@ class ReportBuilder extends React.PureComponent<IProps> {
   public constructor(props: IProps) {
     super(props);
 
-    const { apiRequestOptions, translations } = this.props;
+    const { apiRequestOptions, translations, defaultRowsOffset, defaultRowsLimit } = this.props;
 
     initPeekdataApi(apiRequestOptions);
     setTranslations(translations);
+    setRowsDefaultOffset(defaultRowsOffset);
+    setRowsDefaultLimit(defaultRowsLimit);
   }
 
   public componentDidMount() {
-    const { onLoadScopeNames, reportRequest, onLoadReportRequest } = this.props;
+    const { onLoadScopeNames, reportRequest, onLoadReportRequest, onChangeStartWithRow, onChangeLimitRowsTo, defaultRowsOffset, defaultRowsLimit } = this.props;
+
+    onChangeStartWithRow(defaultRowsOffset);
+    onChangeLimitRowsTo(defaultRowsLimit);
 
     if (reportRequest) {
       onLoadReportRequest(reportRequest);
@@ -120,10 +130,20 @@ class ReportBuilder extends React.PureComponent<IProps> {
   }
 
   public componentDidUpdate(prevProps: IProps) {
-    const { translations, apiRequestOptions, onLoadReportRequest, reportRequest } = this.props;
+    const { translations, apiRequestOptions, onLoadReportRequest, reportRequest, onChangeStartWithRow, onChangeLimitRowsTo, defaultRowsOffset, defaultRowsLimit } = this.props;
     const prevTranslations = prevProps && prevProps.translations;
     const prevApiRequestOptions = prevProps && prevProps.apiRequestOptions;
     const prevReportRequest = prevProps && prevProps.reportRequest;
+    const prevRowsOffset = prevProps && prevProps.defaultRowsOffset;
+    const prevRowsLimit = prevProps && prevProps.defaultRowsLimit;
+
+    if (prevRowsOffset !== defaultRowsOffset) {
+      onChangeStartWithRow(defaultRowsOffset);
+    }
+
+    if (prevRowsLimit !== defaultRowsLimit) {
+      onChangeLimitRowsTo(defaultRowsLimit);
+    }
 
     if (prevTranslations !== translations) {
       setTranslations(translations);
@@ -312,9 +332,9 @@ class ReportBuilder extends React.PureComponent<IProps> {
   }
 
   private renderMetricsList = () => {
-    const { metrics, selectedMetrics, onOptionAdded, onOptionSelected, onOptionUnselected, onSortEnd } = this.props;
+    const { metrics, selectedMetrics, onOptionAdded, onOptionSelected, onOptionUnselected, onSortEnd, showMetricsList } = this.props;
 
-    if (!metrics || !metrics.data || metrics.data.length === 0) {
+    if (!showMetricsList || !metrics || !metrics.data || metrics.data.length === 0) {
       return null;
     }
 
@@ -364,7 +384,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
   // #region -------------- Rows limit -------------------------------------------------------------------
 
   private renderRowsLimit = () => {
-    const { limitRowsTo, startWithRow, onChangeStartWithRow, onChangeLimitRowsTo, showRowsOffset, showRowsLimit, maxRowsLimit } = this.props;
+    const { limitRowsTo, startWithRow, showRowsOffset, showRowsLimit, maxRowsLimit } = this.props;
 
     return (
       <RowsLimitInput
@@ -372,11 +392,25 @@ class ReportBuilder extends React.PureComponent<IProps> {
         limitRowsTo={limitRowsTo}
         showRowsOffset={showRowsOffset}
         showRowsLimit={showRowsLimit}
-        onStartWithRowChanged={onChangeStartWithRow}
-        onLimitRowsToChanged={onChangeLimitRowsTo}
+        onStartWithRowChanged={this.onChangeStartWithRow}
+        onLimitRowsToChanged={this.onChangeLimitRowsTo}
         maxRowsLimit={maxRowsLimit}
       />
     );
+  }
+
+  private onChangeStartWithRow = (rowsOffset: number) => {
+    const { onChangeStartWithRow, onGenerateReportRequest } = this.props;
+
+    onChangeStartWithRow(rowsOffset);
+    onGenerateReportRequest();
+  }
+
+  private onChangeLimitRowsTo = (rowsLimit: number) => {
+    const { onChangeLimitRowsTo, onGenerateReportRequest } = this.props;
+
+    onChangeLimitRowsTo(rowsLimit);
+    onGenerateReportRequest();
   }
 
   // #endregion
@@ -460,14 +494,8 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
       onOptionUnselected: (payload: ISelectGraphNodePayload) => dispatch(unselectGraphNode(payload)),
       onSortOrder: (payload: ISortOrderGraphNodePayload) => dispatch(sortOrder(payload)),
       onSortEnd: (payload: ISortGraphNodePayload) => dispatch(sortEnd(payload)),
-      onChangeLimitRowsTo: (payload: number) => {
-        dispatch(changeLimitRowsTo(payload));
-        dispatch(generateReportRequest());
-      },
-      onChangeStartWithRow: (payload: number) => {
-        dispatch(changeStartWithRow(payload));
-        dispatch(generateReportRequest());
-      },
+      onChangeStartWithRow: (payload: number) => dispatch(changeStartWithRow(payload)),
+      onChangeLimitRowsTo: (payload: number) => dispatch(changeLimitRowsTo(payload)),
       onLoadScopeNames: () => dispatch(loadScopeNames()),
       onScopeChanged: (scope: string) => dispatch(loadGraphNames(scope)),
       onGraphChanged: (payload: ILoadGraphNodesPayloadRequest) => dispatch(loadGraphNodes(payload)),

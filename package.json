@@ -12,7 +12,7 @@
     "package:create": "npm pack && renamer --find \"/react-report-builder-(.*).tgz/\" --replace react-report-builder.tgz *",
     "package:recreate": "npm run package:clean && npm run package:create",
     "rebuild-repack": "npm run build:rebuild && npm run package:recreate",
-    "start": "npm run rebuild-repack && cd example && npm run reinstall:react-report-builder && npm start"
+    "start": "npm run lint && npm run rebuild-repack && cd example && npm run reinstall:react-report-builder && npm start"
   },
   "files": [
     "lib"
@@ -36,10 +36,11 @@
     "@fortawesome/fontawesome-svg-core": "~1.2.18",
     "@fortawesome/free-solid-svg-icons": "~5.8.2",
     "@fortawesome/react-fontawesome": "~0.1.4",
-    "bootstrap": "~3.3.7",
+    "bootstrap": "~3.4.1",
     "chart.js": "~2.8.0",
     "classnames": "~2.2.6",
     "moment": "~2.24.0",
+    "peekdata-datagateway-api-sdk": "~2.1.6",
     "react-bootstrap": "~0.32.4",
     "react-chartjs-2": "~2.7.6",
     "react-copy-to-clipboard": "~5.0.1",
@@ -63,10 +64,11 @@
     "@types/react-syntax-highlighter": "10.1.0",
     "awesome-typescript-loader": "5.2.1",
     "css-loader": "2.1.1",
+    "cssnano": "4.1.10",
     "file-loader": "3.0.1",
     "mini-css-extract-plugin": "0.6.0",
     "node-sass": "4.12.0",
-    "peekdata-datagateway-api-sdk": "file:packages/peekdata-datagateway-api-sdk.tgz",
+    "optimize-css-assets-webpack-plugin": "5.0.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "renamer": "1.1.1",
