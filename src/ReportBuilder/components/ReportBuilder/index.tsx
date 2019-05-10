@@ -496,11 +496,8 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
       onOptionUnselected: (payload: ISelectGraphNodePayload) => dispatch(unselectGraphNode(payload)),
       onSortOrder: (payload: ISortOrderGraphNodePayload) => dispatch(sortOrder(payload)),
       onSortEnd: (payload: ISortGraphNodePayload) => dispatch(sortEnd(payload)),
+      onChangeStartWithRow: (payload: number) => dispatch(changeStartWithRow(payload)),
       onChangeLimitRowsTo: (payload: number) => dispatch(changeLimitRowsTo(payload)),
-      onChangeStartWithRow: (payload: number) => {
-        dispatch(changeStartWithRow(payload));
-        dispatch(generateReportRequest());
-      },
       onLoadScopeNames: () => dispatch(loadScopeNames()),
       onScopeChanged: (scope: string) => dispatch(loadGraphNames(scope)),
       onGraphChanged: (payload: ILoadGraphNodesPayloadRequest) => dispatch(loadGraphNodes(payload)),
