@@ -59,11 +59,11 @@ Props description:
 
 |             Name             | Type        | Default value | Description                                                  |
 | :--------------------------: | :---------- | :------------ | ------------------------------------------------------------ |
-| apiRequestOptions (required) |             |               |                                                              |
-|         translations         |             |               |                                                              |
-|        reportRequest         |             |               |                                                              |
+| apiRequestOptions (required) | object      |               | To understand how to create or modify request options object read [here](https://github.com/peekdata/datagateway-api-js-sdk#compact-initialization). All object properties is not mandatory. |
+|         translations         | object      |               | Translations object structure can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/ReportBuilder/translations.ts). |
+|        reportRequest         | object      |               | This prop enable you to load exiting report. To understand how to create or modify request object read [here](https://github.com/peekdata/datagateway-api-js-sdk#report-request-options). |
 |       showContentTitle       | boolean     | true          | Whether report builder title `Report content` is shown       |
-|            loader            | elementType | <Spinner />   | If you need, it can be used your custom loader component.    |
+|            loader            | elementType |               | If you need, it can be used your custom loader component.    |
 |      showScopesDropdown      | boolean     | true          | Whether the scopes dropdown is shown                         |
 |      showGraphsDropdown      | boolean     | true          | Whether the graphs dropdown is shown                         |
 |      showDimensionsList      | boolean     | true          | Whether the dimensions list is shown                         |
