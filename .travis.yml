@@ -4,3 +4,12 @@ node_js:
 script:
   - npm run lint
   - npm run build
+deploy:
+  provider: npm
+  email: viacheslavas.ruckis@gmail.com
+  api_key:
+    secure: 3wm6cpZ+fJD1Lp4FdFVfuRjVRWtWgsXTWAJNbwE4utCkTP22i3lmPTjLoAtOcbMmeBopE4KaJCszsXDZeZ1KYmOY8vHHBgVokIhkIKMKTsXTHiVCYApDqkL1P4mIC5FeWCoa4Qg+OtxQRMuKylCZkU70zH7VlgKqFyfptpwDR4EYdk7tSY89G1KkUGHheZnMhl6XwsafEqrpgcTOe6VHChevBO1VbeVRQj/vTE/RekWpFsJBCoHi2k6PhelI1WanPweF/HaarcZD9QuK85aWZm/MIxALM1tdPMVbqETYSrrdIvmB7LKNeZ5vBXGlu2p+P0yen/bJ1z6Fb2wlvt0f2IdP6M9Qd2LiKrkSgMW4hbcVUBplpP+5xojTOu6ivJmGL0EtVrehfpgnPh9qWwsSpWD6CWqxhTipCW7ShhwwC22Q4ev4VeO9HHkb99H/LeYcrDZtfEZr+M87SBQvgTcjnUBV07Om+ms1WqMJNZVYk/adnm5lREbV2cwKUcbkK0SWbZ7KhX4DF8xUV26/glagRrCcTAe8oqIEXeTGzJxVSmso4e8OZ/r/CBAPq1SikBXeLzMsGzvBgpS1Bqrj4bhY85qDHfY4OWU4POdVJmTiLaCOR3yi5azouqd+K4NjQXWk7rrkuoQ/hD2RKKY37Hf1D5fB0ZnuDiM6POMUlUTEBpM=
+  skip_cleanup: true
+  on:
+    branch:
+      - master

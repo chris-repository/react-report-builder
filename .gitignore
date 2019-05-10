@@ -34,4 +34,3 @@ yarn.lock
 # others
 .DS_Store
 *.tgz
-!packages/*.tgz
