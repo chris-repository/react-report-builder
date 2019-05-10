@@ -59,7 +59,7 @@ Props description:
 
 |             Name             | Type        | Default value | Description                                                  |
 | :--------------------------: | :---------- | :------------ | ------------------------------------------------------------ |
-| apiRequestOptions (required) | object      |               | To understand how to create or modify request options object read [here](https://github.com/peekdata/datagateway-api-js-sdk#compact-initialization). All object properties is not mandatory. |
+| apiRequestOptions (required) | object      |               | To understand how to create or modify request options object read [here](https://github.com/peekdata/datagateway-api-js-sdk#compact-initialization). All object properties are not mandatory. |
 |         translations         | object      |               | Translations object structure can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/ReportBuilder/translations.ts). |
 |        reportRequest         | object      |               | This prop enables you to load exiting report. To understand how to create or modify request object read [here](https://github.com/peekdata/datagateway-api-js-sdk#report-request-options). |
 |       showContentTitle       | boolean     | true          | Whether report builder title `Report content` is shown       |
