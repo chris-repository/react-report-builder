@@ -1,6 +1,5 @@
 import { ICompatibilityRequest, IGraphNode, IGraphReportCompatibility, INotOptimizedReportResponse, IOptimizedReportResponse, IReportRequest, IReportRequestSortings, PeekdataError } from 'peekdata-datagateway-api-sdk';
 import { all, put, select, take, takeLatest } from 'redux-saga/effects';
-import { rows } from 'src/ReportBuilder/constants/rows';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
 import { peekdataApi } from 'src/ReportBuilder/services/api';
 import { IAction } from 'src/ReportBuilder/state/action';
@@ -9,6 +8,7 @@ import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
 import { IScopeNamesState } from 'src/ReportBuilder/state/reducers/scopeNames';
 import { getRequestDateRangesFilters, getRequestOptions, getRequestSingleKeysFilters, getRequestSingleValuesFilters, getRequestSortedOptions } from 'src/ReportBuilder/utils/RequestUtils';
 import v4 from 'uuid/v4';
+import { defaultRows } from '../constants/rows';
 import { FilterTypes, IFilter } from '../models/filter';
 
 // #region -------------- Load report request -------------------------------------------------------------------
@@ -48,8 +48,8 @@ export function* onLoadReportRequest(action: IAction<Partial<IReportRequest>>) {
     yield put(selectGraphNode(null));
     yield take(actionTypes.compatibilityChecked);
 
-    yield put(changeStartWithRow(startWithRow !== undefined && startWithRow !== null ? Number(startWithRow) : rows.startWithRow));
-    yield put(changeLimitRowsTo(limitRowsTo !== undefined && limitRowsTo !== null ? Number(limitRowsTo) : rows.limitRowsTo));
+    yield put(changeStartWithRow(startWithRow !== undefined && startWithRow !== null ? Number(startWithRow) : defaultRows.offset));
+    yield put(changeLimitRowsTo(limitRowsTo !== undefined && limitRowsTo !== null ? Number(limitRowsTo) : defaultRows.limit));
     yield put(reportRequestGenerated(reportRequest));
   } catch (error) {
     console.error(error);
@@ -151,8 +151,8 @@ export function* onGenerateReportRequest() {
 
     request.options = {
       rows: {
-        limitRowsTo: limitRowsTo !== null && limitRowsTo !== undefined ? limitRowsTo.toString() : rows.limitRowsTo.toString(),
-        startWithRow: startWithRow !== null && startWithRow !== undefined ? startWithRow.toString() : rows.startWithRow.toString(),
+        startWithRow: startWithRow !== null && startWithRow !== undefined ? startWithRow.toString() : defaultRows.offset.toString(),
+        limitRowsTo: limitRowsTo !== null && limitRowsTo !== undefined ? limitRowsTo.toString() : defaultRows.limit.toString(),
       },
     };
 

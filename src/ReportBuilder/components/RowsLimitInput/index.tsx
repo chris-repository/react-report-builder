@@ -38,7 +38,7 @@ export class RowsLimitInput extends React.PureComponent<IProps> {
 
     return (
       <div className='rb-limit-rows-input-container'>
-        <div className='rb-title-dark rb-title-small'>{translate(t => t.rowsOffset)}</div>
+        <div className='rb-title-dark rb-title-extra-small'>{translate(t => t.rowsOffset)}</div>
 
         <InputNumber
           value={startWithRow}
@@ -58,7 +58,7 @@ export class RowsLimitInput extends React.PureComponent<IProps> {
 
     return (
       <div className='rb-limit-rows-input-container'>
-        <div className='rb-title-dark rb-title-small'>{translate(t => t.rowsLimit)}</div>
+        <div className='rb-title-dark rb-title-extra-small'>{translate(t => t.rowsLimit)}</div>
 
         <InputNumber
           value={limitRowsTo}

@@ -59,22 +59,25 @@ Props description:
 
 |             Name             | Type        | Default value | Description                                                  |
 | :--------------------------: | :---------- | :------------ | ------------------------------------------------------------ |
-| apiRequestOptions (required) | object      |               | To understand how to create or modify request options object read [here](https://github.com/peekdata/datagateway-api-js-sdk#compact-initialization). All object properties are not mandatory. |
-|         translations         | object      |               | Translations object structure can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/ReportBuilder/translations.ts). |
-|        reportRequest         | object      |               | This prop enables you to load exiting report. To understand how to create or modify request object read [here](https://github.com/peekdata/datagateway-api-js-sdk#report-request-options). |
+| apiRequestOptions (required) | object      |               | API request options. To understand how to create or modify these options read [here](https://github.com/peekdata/datagateway-api-js-sdk#compact-initialization). |
+|         translations         | object      |               | Translations object. All available translations can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/ReportBuilder/translations.ts). |
+|        reportRequest         | object      |               | This object can be used to prefill report builder form fields. All properties are optional. To understand how to create or modify this object read [here](https://github.com/peekdata/datagateway-api-js-sdk#report-request-options). |
 |       showContentTitle       | boolean     | true          | Whether report builder title `Report content` is shown       |
-|            loader            | elementType |               | If you need, it can be used your custom loader component.    |
+|            loader            | elementType |               | Loader can be changed by passing custom loader component.    |
 |      showScopesDropdown      | boolean     | true          | Whether the scopes dropdown is shown                         |
 |      showGraphsDropdown      | boolean     | true          | Whether the graphs dropdown is shown                         |
 |      showDimensionsList      | boolean     | true          | Whether the dimensions list is shown                         |
+|       showMetricsList        | boolean     | true          | Whether the metrics list is shown                            |
 |         showFilters          | boolean     | true          | Whether the filters component is shown                       |
-|        showRowsOffset        | boolean     | true          | Whether the `Start with row` component is shown              |
-|        showRowsLimit         | boolean     | true          | Whether the `Limit number of rows to` component is shown     |
-|         maxRowsLimit         | number      | 1000          | Sets max value of limit row                                  |
-|    showRequestViewButton     | boolean     | true          | Whether the dropdown (options: `View request payload`, `View request as cURL`) is shown |
-|    showResponseViewButton    | boolean     | true          | Whether the dropdown (options: `View response as optimized JSON`, `View response as full JSON`, `View reponse as SQL`, `View response as CSV`) is shown |
+|        showRowsOffset        | boolean     | true          | Whether the rows offset input is shown                       |
+|        showRowsLimit         | boolean     | true          | Whether the rows limit input is shown                        |
+|      defaultRowsOffset       | number      | 0             | Sets default rows offset                                     |
+|       defaultRowsLimit       | number      | 100           | Sets default rows limit                                      |
+|         maxRowsLimit         | number      | 1000          | Sets max value of rows limit input                           |
+|    showRequestViewButton     | boolean     | true          | Whether the request view button is shown                     |
+|    showResponseViewButton    | boolean     | true          | Whether the response view button is shown                    |
 |         showDataTabs         | boolean     | true          | Whether the tabs section is shown                            |
-|          showChart           | boolean     | true          | Whether the tab of charts is shown                           |
-|        showDataTable         | boolean     | true          | Whether the tab of data table is shown                       |
-|          defaultTab          | number      | 0             | Index of first tab                                           |
+|          showChart           | boolean     | true          | Whether the chart is shown                                   |
+|        showDataTable         | boolean     | true          | Whether the data table is shown                              |
+|          defaultTab          | number      | 0             | Sets index of active tab                                     |
 
