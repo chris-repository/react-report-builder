@@ -39,7 +39,7 @@ class FilterControls extends React.PureComponent<IProps> {
 
     return (
       <div className='rb-report-filters'>
-        <div className='rb-title-dark rb-title-small'>{translate(t => t.filtersText)} <span>- {translate(t => t.optionalLabel)}</span></div>
+        <div className='rb-title-dark rb-title-extra-small'>{translate(t => t.filtersText)} <span>- {translate(t => t.optionalLabel)}</span></div>
 
         {filters && filters.length !== 0 && <div className='rb-filter-container'>
           {filters.map((filter, index) =>

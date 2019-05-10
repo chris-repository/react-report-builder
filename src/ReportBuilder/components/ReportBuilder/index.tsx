@@ -50,7 +50,6 @@ interface IDispatchProps {
 }
 
 interface IDefaultProps {
-  showTitle: boolean;
   showContentTitle: boolean;
   loader: ReactNode;
   showScopesDropdown: boolean;
@@ -86,7 +85,6 @@ interface IProps extends IStateProps, IDispatchProps, IReportBuilderProps { }
 class ReportBuilder extends React.PureComponent<IProps> {
 
   public static defaultProps: IDefaultProps = {
-    showTitle: true,
     showContentTitle: true,
     loader: <Spinner />,
     showScopesDropdown: true,
