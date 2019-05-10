@@ -49,7 +49,12 @@ export class Dashboards extends React.PureComponent<IProps, IState> {
       <div className='rb-dashboards'>
 
         {this.renderChartSelector()}
-        {this.renderChart()}
+
+        <div className='rb-chart-wrapper'>
+          <div>
+            {this.renderChart()}
+          </div>
+        </div>
 
       </div>
     );

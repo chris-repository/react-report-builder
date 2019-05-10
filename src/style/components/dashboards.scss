@@ -13,6 +13,18 @@
       }
     }
   }
+
+  .rb-chart-wrapper {
+    @media #{$rb-screen-xs} {
+      overflow-x: scroll;
+      overflow-y: hidden;
+
+      > div {
+        min-width: 750px;
+        min-height: 375px;
+      }
+    }
+  }
 }
 
 // #endregion
