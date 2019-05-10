@@ -12,7 +12,7 @@ Key features:
 - Define any filtering and sorting criteria
 - Easy way to explore data and learn from it
 
-See [reportbuilder.peekdata.io](http://reportbuilder.peekdata.io/) for live demos.
+See [reportbuilder.peekdata.io](http://reportbuilder.peekdata.io/) for live demo.
 
 
 
@@ -61,7 +61,7 @@ Props description:
 | :--------------------------: | :---------- | :------------ | ------------------------------------------------------------ |
 | apiRequestOptions (required) | object      |               | To understand how to create or modify request options object read [here](https://github.com/peekdata/datagateway-api-js-sdk#compact-initialization). All object properties is not mandatory. |
 |         translations         | object      |               | Translations object structure can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/ReportBuilder/translations.ts). |
-|        reportRequest         | object      |               | This prop enable you to load exiting report. To understand how to create or modify request object read [here](https://github.com/peekdata/datagateway-api-js-sdk#report-request-options). |
+|        reportRequest         | object      |               | This prop enables you to load exiting report. To understand how to create or modify request object read [here](https://github.com/peekdata/datagateway-api-js-sdk#report-request-options). |
 |       showContentTitle       | boolean     | true          | Whether report builder title `Report content` is shown       |
 |            loader            | elementType |               | If you need, it can be used your custom loader component.    |
 |      showScopesDropdown      | boolean     | true          | Whether the scopes dropdown is shown                         |
