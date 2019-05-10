@@ -26,12 +26,15 @@ or
 
 `yarn add react-report-builder`
 
-You will also need to require the CSS file from this package (or provide your own). The example below shows how to use it in your app and include the CSS from this package if your build system supports requiring CSS files:
+You will also need to require the CSS file from this package and its dependencies (or provide your own). The example below shows how to use it in your app and include CSS files if your build system supports requiring CSS files:
 
 ```javascript
 import React from 'react';
 import { ReportBuilder } from 'react-report-builder';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import 'react-table/react-table.css';
 import 'react-report-builder/lib/main.css';
 
 const apiRequestOptions = {

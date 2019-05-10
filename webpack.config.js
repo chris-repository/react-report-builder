@@ -4,9 +4,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
 const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 const includeModules = [
-  '@fortawesome/fontawesome-svg-core',
-  '@fortawesome/free-solid-svg-icons',
-  '@fortawesome/react-fontawesome'
+  'file:packages/peekdata-datagateway-api-sdk.tgz'
 ];
 const dependencies = Object.keys(packageJson.dependencies);
 const devDependencies = Object.keys(packageJson.devDependencies);
@@ -63,17 +61,10 @@ module.exports = {
         ]
       },
       {
-        test: [/\.(gif|svg)$/],
+        test: [/\.gif$/],
         loader: 'url-loader',
         options: {
           name: 'static/images/[name].[hash:8].[ext]',
-        },
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        loader: 'url-loader',
-        options: {
-          name: 'static/fonts/[name].[hash:8].[ext]',
         },
       }
     ]
