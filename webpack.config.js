@@ -1,6 +1,7 @@
 const ExternalModuleFactoryPlugin = require('webpack/lib/ExternalModuleFactoryPlugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const path = require('path');
 const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 const includeModules = [];
@@ -72,5 +73,8 @@ module.exports = {
   plugins: [
     new DependenciesAsExternalsPlugin(),
     new MiniCssExtractPlugin(),
+    new OptimizeCssAssetsPlugin({
+      cssProcessor: require('cssnano'),
+    }),
   ],
 };
