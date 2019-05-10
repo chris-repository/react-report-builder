@@ -508,4 +508,3 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
 // #endregion
 
 export { connected as ReportBuilder };
-
