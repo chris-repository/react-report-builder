@@ -49,6 +49,20 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: [/\.svg$/],
+        loader: 'url-loader',
+        options: {
+          name: 'static/images/[name].[hash:8].[ext]',
+        },
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        loader: 'url-loader',
+        options: {
+          name: 'static/fonts/[name].[hash:8].[ext]',
+        },
+      }
     ]
   }
 };
