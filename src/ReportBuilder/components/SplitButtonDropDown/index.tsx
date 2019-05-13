@@ -5,8 +5,8 @@ import { MenuItem, SplitButton } from 'react-bootstrap';
 
 interface IProps {
   id: string;
-  title: string;
-  options: string[];
+  value: string;
+  options: Map<string, string>;
   classNames?: string;
   onSelect: (option: string) => void;
 }
@@ -17,7 +17,8 @@ interface IProps {
 
 export class SplitButtonDropDown extends React.PureComponent<IProps> {
   public render() {
-    const { id, title, classNames } = this.props;
+    const { id, value, classNames, options } = this.props;
+    const title = options && options.get(value);
 
     return (
       <div className='rb-split-btn'>
@@ -25,7 +26,7 @@ export class SplitButtonDropDown extends React.PureComponent<IProps> {
           id={id}
           title={title}
           className={classNames}
-          onClick={() => this.onSelect(title)}
+          onClick={() => this.onSelect(value)}
         >
           {this.renderOptions()}
         </SplitButton>
@@ -38,19 +39,25 @@ export class SplitButtonDropDown extends React.PureComponent<IProps> {
   private renderOptions = () => {
     const { options } = this.props;
 
-    if (!options || options.length < 1) {
+    if (!options || options.size < 1) {
       return null;
     }
 
-    return options.map((option, index) => (
-      <MenuItem
-        key={index}
-        eventKey={index}
-        onSelect={() => this.onSelect(option)}
-      >
-        {option}
-      </MenuItem>
-    ));
+    const items = [];
+
+    options.forEach((label, value) => {
+      items.push((
+        <MenuItem
+          key={value}
+          eventKey={value}
+          onSelect={() => this.onSelect(value)}
+        >
+          {label}
+        </MenuItem>
+      ));
+    });
+
+    return items;
   }
 
   private onSelect = (option: string) => {

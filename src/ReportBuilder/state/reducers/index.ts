@@ -1,6 +1,7 @@
 import { INotOptimizedReportResponse, IOptimizedReportResponse, IReportRequest } from 'peekdata-datagateway-api-sdk';
 import { IFilter } from 'src/ReportBuilder/models/filter';
 import { IDimension, IMetric, ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
 import { ICompatibilityState } from './compatibility';
 import { IGraphNamesState } from './graphNames';
@@ -24,6 +25,7 @@ export interface IReportBuilderState {
   select: IAsyncState<string>;
   selectedDimensions: ISelectedGraphNode[];
   selectedMetrics: ISelectedGraphNode[];
+  translations: ITranslations;
 }
 
 // #endregion
