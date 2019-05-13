@@ -89,12 +89,12 @@ As mentioned above all available translations can be seen [here](https://github.
 
 ```javascript
 const translations = {
-    contentTitle: 'Report content',
-    graphsDropdownTitle: 'Data Source',
-  	dimensionsListTitle: 'Dimensions',
-    apiErrors: {
-        57010: 'Dimension/metric combination is not valid',
-    },
+  contentTitle: 'Report content',
+  graphsDropdownTitle: 'Data Source',
+  dimensionsListTitle: 'Dimensions',
+  apiErrors: {
+    57010: 'Dimension/metric combination is not valid',
+  },
 };
 ```
 
