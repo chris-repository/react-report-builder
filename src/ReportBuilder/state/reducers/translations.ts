@@ -15,7 +15,7 @@ export function translationsReducer(state: ITranslations = initialState, action:
   switch (action.type) {
     case actionTypes.setTranslations:
       if (!action.payload) {
-        return state;
+        return initialState;
       }
 
       return {
