@@ -34,7 +34,7 @@ export function setTranslations(newTranslations: Partial<ITranslations>) {
   };
 }
 
-export function getTranslations(): Partial<ITranslations> {
+export function getTranslations(): ITranslations {
   return mainTranslations;
 }
 
