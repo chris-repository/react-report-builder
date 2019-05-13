@@ -10,6 +10,7 @@ import { getRequestDateRangesFilters, getRequestOptions, getRequestSingleKeysFil
 import v4 from 'uuid/v4';
 import { defaultRows } from '../constants/rows';
 import { FilterTypes, IFilter } from '../models/filter';
+import { getApiErrorTranslation } from '../translations';
 
 // #region -------------- Load report request -------------------------------------------------------------------
 
@@ -178,7 +179,7 @@ export function* onLoadScopeNames() {
     yield put(scopeNamesLoaded({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -202,7 +203,7 @@ export function* onLoadGraphNames(action: IAction<string>) {
     yield put(graphNamesLoaded({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -234,7 +235,7 @@ export function* onLoadDimensions(action: IAction<ILoadGraphNodesPayloadRequest>
     yield put(dimensionsLoaded({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -266,7 +267,7 @@ export function* onLoadMetrics(action: IAction<ILoadGraphNodesPayloadRequest>) {
     yield put(metricsLoaded({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -352,7 +353,7 @@ export function* onCheckCompatibility() {
     yield put(compatibilityChecked({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -376,7 +377,7 @@ export function* onLoadDataFull(action: IAction<IReportRequest>) {
     yield put(dataFullLoaded({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -400,7 +401,7 @@ export function* onLoadDataOptimized(action: IAction<IReportRequest>) {
     yield put(dataOptimizedLoaded({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -424,7 +425,7 @@ export function* onLoadCsvFile(action: IAction<IReportRequest>) {
     yield put(csvFileLoaded({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }
@@ -448,7 +449,7 @@ export function* onLoadSelect(action: IAction<IReportRequest>) {
     yield put(selectLoaded({
       data: null,
       isFetching: false,
-      error: error.toString(),
+      error: getApiErrorTranslation(error) || error.toString(),
       errorTimestamp: new Date(),
     }));
   }

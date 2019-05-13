@@ -1,6 +1,18 @@
+import { PeekdataError } from 'peekdata-datagateway-api-sdk';
+import { isPeekdataError } from './utils/ErrorUtils';
+
 // #region -------------- Interfaces -------------------------------------------------------------------
 
-export type ITranslations = typeof translations;
+interface IApiErrorTranslations {
+  [errorCode: number]: string;
+}
+
+type MainTranslations = typeof mainTranslations;
+
+export interface ITranslations extends MainTranslations {
+  apiErrors?: IApiErrorTranslations;
+}
+
 type TranslationSelector = (translations: ITranslations) => string;
 
 // #endregion
@@ -8,7 +20,7 @@ type TranslationSelector = (translations: ITranslations) => string;
 // #region -------------- Helpers -------------------------------------------------------------------
 
 export function translate(selector: TranslationSelector): string {
-  return selector(translations);
+  return selector(mainTranslations);
 }
 
 export function setTranslations(newTranslations: Partial<ITranslations>) {
@@ -16,17 +28,34 @@ export function setTranslations(newTranslations: Partial<ITranslations>) {
     return;
   }
 
-  translations = {
-    ...translations,
+  mainTranslations = {
+    ...mainTranslations,
     ...newTranslations,
   };
+}
+
+export function getTranslations(): Partial<ITranslations> {
+  return mainTranslations;
+}
+
+export function getApiErrorTranslation(error: PeekdataError): string {
+  if (isPeekdataError(error)) {
+    const translations = getTranslations();
+    const apiErrors = translations && translations.apiErrors;
+
+    if (apiErrors && apiErrors[error.code]) {
+      return translate(t => t.apiErrors[error.code]);
+    }
+  }
+
+  return null;
 }
 
 // #endregion
 
 // #region -------------- Translations -------------------------------------------------------------------
 
-let translations = {
+let mainTranslations = {
   contentTitle: 'Report content',
   scopesDropdownTitle: 'Choose your Business Scope/Domain',
   graphsDropdownTitle: 'Data Source',

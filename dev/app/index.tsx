@@ -12,7 +12,7 @@ class App extends React.PureComponent {
     return (
       <ReportBuilder
         apiRequestOptions={{
-          baseUrl: 'https://demo.peekdata.io:8443/datagateway/rest/v1'
+          baseUrl: 'https://demo.peekdata.io:8443/datagateway/rest/v1',
         }}
         defaultRowsOffset={10}
         defaultRowsLimit={190}
@@ -44,7 +44,8 @@ class App extends React.PureComponent {
               },
             ],
           },
-        }} />
+        }}
+      />
     );
   }
 }
