@@ -81,3 +81,20 @@ Props description:
 |        showDataTable         | boolean     | true          | Whether the data table is shown                              |
 |          defaultTab          | number      | 0             | Sets index of active tab                                     |
 
+
+
+### Translations
+
+As mentioned above all available translations can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/ReportBuilder/translations.ts). Moreover, there can be added one more translation object: `apiErrors`. This translation object is used to translate errors by code (see error codes [here](https://github.com/peekdata/datagateway-api-js-sdk/blob/master/src/models/error.ts)) returned from API.  Translation object's example:
+
+```javascript
+const translations = {
+    contentTitle: 'Report content',
+    graphsDropdownTitle: 'Data Source',
+  	dimensionsListTitle: 'Dimensions',
+    apiErrors: {
+        57010: 'Dimension/metric combination is not valid',
+    },
+};
+```
+
