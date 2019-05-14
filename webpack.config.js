@@ -28,7 +28,7 @@ module.exports = {
     filename: "index.js",
     path: __dirname + "/lib",
     library: "ReportBuilder",
-    libraryTarget: "commonjs2",
+    libraryTarget: "umd",
   },
   devtool: "source-map",
   resolve: {
@@ -41,7 +41,7 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "awesome-typescript-loader",
+        loader: "ts-loader",
         options: {
           compiler: 'ttypescript'
         }
