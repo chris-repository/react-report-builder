@@ -23,13 +23,9 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "awesome-typescript-loader",
+        loader: "ts-loader",
         options: {
           compiler: 'ttypescript',
-          useWebpackText: true,
-          useTranspileModule: true,
-          doTypeCheck: true,
-          forkChecker: true
         }
       },
       {

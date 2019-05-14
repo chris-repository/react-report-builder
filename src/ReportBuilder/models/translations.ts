@@ -1,4 +1,3 @@
-
 export interface IApiErrorTranslations {
   [errorCode: number]: string;
 }
