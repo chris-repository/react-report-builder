@@ -1,11 +1,11 @@
 import { IOptimizedReportResponse, IReportRequest } from 'peekdata-datagateway-api-sdk';
 import React, { Fragment, ReactNode } from 'react';
 import { connect } from 'react-redux';
-import { translate } from 'src/ReportBuilder//translations';
 import { Dashboards } from 'src/ReportBuilder/components/Dashboards';
 import { ReportTable } from 'src/ReportBuilder/components/ReportTable';
 import { ITab, TabsControl as Tabs } from 'src/ReportBuilder/components/Tabs';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
 import { loadDataOptimized } from 'src/ReportBuilder/state/actions';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
@@ -18,6 +18,7 @@ interface IStateProps {
   selectedMetrics: ISelectedGraphNode[];
   dataOptimized: IAsyncState<IOptimizedReportResponse>;
   request: IReportRequest;
+  t: ITranslations;
 }
 
 interface IDispatchProps {
@@ -103,7 +104,7 @@ class ReportTabs extends React.PureComponent<IProps> {
   }
 
   private getTabsItems = () => {
-    const { dataOptimized, showChart, showDataTable } = this.props;
+    const { dataOptimized, showChart, showDataTable, t } = this.props;
     const loading = dataOptimized && dataOptimized.isFetching;
     const error = dataOptimized && dataOptimized.error;
 
@@ -111,7 +112,7 @@ class ReportTabs extends React.PureComponent<IProps> {
 
     if (showChart) {
       tabsItems.push({
-        title: translate(t => t.chartTab),
+        title: t.chartTab,
         loading,
         error,
         content: this.renderChartTab(),
@@ -121,7 +122,7 @@ class ReportTabs extends React.PureComponent<IProps> {
 
     if (showDataTable) {
       tabsItems.push({
-        title: translate(t => t.tableTab),
+        title: t.tableTab,
         loading,
         error,
         content: this.renderTableTab(),
@@ -164,7 +165,7 @@ class ReportTabs extends React.PureComponent<IProps> {
   }
 
   private renderChart = () => {
-    const { dataOptimized, selectedDimensions, selectedMetrics, showChart } = this.props;
+    const { dataOptimized, selectedDimensions, selectedMetrics, showChart, t } = this.props;
     const data = dataOptimized && dataOptimized.data;
 
     if (!showChart) {
@@ -176,6 +177,7 @@ class ReportTabs extends React.PureComponent<IProps> {
         data={data}
         dimensions={selectedDimensions}
         metrics={selectedMetrics}
+        t={t}
       />
     );
   }
@@ -193,7 +195,7 @@ class ReportTabs extends React.PureComponent<IProps> {
   }
 
   private renderDataTable = () => {
-    const { dataOptimized, showDataTable } = this.props;
+    const { dataOptimized, showDataTable, t } = this.props;
     const data = dataOptimized && dataOptimized.data;
 
     if (!showDataTable) {
@@ -201,7 +203,7 @@ class ReportTabs extends React.PureComponent<IProps> {
     }
 
     return (
-      <ReportTable data={data} />
+      <ReportTable data={data} t={t} />
     );
   }
 
@@ -214,13 +216,14 @@ class ReportTabs extends React.PureComponent<IProps> {
 
 const connected = connect<IStateProps, IDispatchProps, IOwnProps, IReportBuilderState>(
   (state) => {
-    const { dataOptimized, selectedDimensions, selectedMetrics, request } = state;
+    const { dataOptimized, selectedDimensions, selectedMetrics, request, translations } = state;
 
     return {
       selectedDimensions,
       selectedMetrics,
       dataOptimized,
       request,
+      t: translations,
     };
   },
   (dispatch) => {

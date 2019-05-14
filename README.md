@@ -60,7 +60,7 @@ Props description:
 |             Name             | Type        | Default value | Description                                                  |
 | :--------------------------: | :---------- | :------------ | ------------------------------------------------------------ |
 | apiRequestOptions (required) | object      |               | API request options. To understand how to create or modify these options read [here](https://github.com/peekdata/datagateway-api-js-sdk#compact-initialization). |
-|         translations         | object      |               | Translations object. All available translations can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/ReportBuilder/translations.ts). |
+|         translations         | object      |               | Translations object. All available translations can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/assets/translations.ts). |
 |        reportRequest         | object      |               | This object can be used to prefill report builder form fields. All properties are optional. To understand how to create or modify this object read [here](https://github.com/peekdata/datagateway-api-js-sdk#report-request-options). |
 |       showContentTitle       | boolean     | true          | Whether report builder title `Report content` is shown       |
 |            loader            | elementType |               | Loader can be changed by passing custom loader component.    |
@@ -80,4 +80,23 @@ Props description:
 |          showChart           | boolean     | true          | Whether the chart is shown                                   |
 |        showDataTable         | boolean     | true          | Whether the data table is shown                              |
 |          defaultTab          | number      | 0             | Sets index of active tab                                     |
+
+
+
+### Translations
+
+As mentioned above all available translations can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/assets/translations.ts). Moreover, there can be added one more translation object: `apiErrors`. This translation object is used to translate error returned from API by its code (see error codes [here](https://github.com/peekdata/datagateway-api-js-sdk/blob/master/src/models/error.ts)). Translation object example:
+
+```javascript
+import { ApiErrorCode } from 'peekdata-datagateway-api-sdk';
+
+const translations = {
+  contentTitle: 'Report content',
+  graphsDropdownTitle: 'Data Source',
+  dimensionsListTitle: 'Dimensions',
+  apiErrors: {
+    [ApiErrorCode.DimensionsMetricsNotCompatible]: 'Dimension/metric combination is not valid',
+  },
+};
+```
 

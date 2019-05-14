@@ -15,6 +15,7 @@ import { select } from './reducers/select';
 import { selectedDimensions } from './reducers/selectedDimensions';
 import { selectedMetrics } from './reducers/selectedMetrics';
 import { getStartWithRow } from './reducers/startWithRow';
+import { translationsReducer } from './reducers/translations';
 
 // #region -------------- Reducer -------------------------------------------------------------------
 
@@ -34,6 +35,7 @@ export const rootReducer = combineReducers<IReportBuilderState>({
   select,
   selectedDimensions,
   selectedMetrics,
+  translations: translationsReducer,
 });
 
 // #endregion

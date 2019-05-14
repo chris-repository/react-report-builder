@@ -4,7 +4,7 @@ import { Bar, Doughnut, Line, Pie, Radar } from 'react-chartjs-2';
 import { ButtonGroup, IButtonGroupButton } from 'src/ReportBuilder/components/ButtonGroup';
 import { ChartTypes } from 'src/ReportBuilder/models/chart';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
-import { translate } from 'src/ReportBuilder/translations';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { colorizeChart, colorizeOvalChart, customizeOvalChartLabel, generateChartColors, getChartLabels, getDataIndexes, getDataSets } from 'src/ReportBuilder/utils/Chart';
 import 'src/style/components/dashboards.scss';
 
@@ -14,6 +14,7 @@ interface IProps {
   data: IOptimizedReportResponse;
   dimensions: ISelectedGraphNode[];
   metrics: ISelectedGraphNode[];
+  t: ITranslations;
 }
 
 interface IState {
@@ -75,12 +76,14 @@ export class Dashboards extends React.PureComponent<IProps, IState> {
   }
 
   private getChartOptions = (): IButtonGroupButton[] => {
+    const { t } = this.props;
+
     return [
-      { value: ChartTypes.bar, label: translate(t => t.chartTypeBar) },
-      { value: ChartTypes.line, label: translate(t => t.chartTypeLine) },
-      { value: ChartTypes.pie, label: translate(t => t.chartTypePie) },
-      { value: ChartTypes.doughnut, label: translate(t => t.chartTypeDoughnut) },
-      { value: ChartTypes.radar, label: translate(t => t.chartTypeRadar) },
+      { value: ChartTypes.bar, label: t.chartTypeBar },
+      { value: ChartTypes.line, label: t.chartTypeLine },
+      { value: ChartTypes.pie, label: t.chartTypePie },
+      { value: ChartTypes.doughnut, label: t.chartTypeDoughnut },
+      { value: ChartTypes.radar, label: t.chartTypeRadar },
     ];
   }
 

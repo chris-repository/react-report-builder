@@ -10,12 +10,12 @@ import { Spinner } from 'src/ReportBuilder/components/Spinner';
 import { ViewDropDowns } from 'src/ReportBuilder/components/ViewDropDowns';
 import { defaultRows, setRowsDefaultLimit, setRowsDefaultOffset } from 'src/ReportBuilder/constants/rows';
 import { IDimension, IMetric, ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { initPeekdataApi } from 'src/ReportBuilder/services/api';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
-import { addGraphNode, changeLimitRowsTo, changeStartWithRow, generateReportRequest, ILoadGraphNodesPayloadRequest, ISelectGraphNodePayload, ISortGraphNodePayload, ISortOrderGraphNodePayload, loadGraphNames, loadGraphNodes, loadReportRequest, loadScopeNames, selectGraphNode, sortEnd, sortOrder, unselectGraphNode } from 'src/ReportBuilder/state/actions';
+import { addGraphNode, changeLimitRowsTo, changeStartWithRow, generateReportRequest, ILoadGraphNodesPayloadRequest, ISelectGraphNodePayload, ISortGraphNodePayload, ISortOrderGraphNodePayload, loadGraphNames, loadGraphNodes, loadReportRequest, loadScopeNames, selectGraphNode, setTranslations, sortEnd, sortOrder, unselectGraphNode } from 'src/ReportBuilder/state/actions';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
 import { ICompatibilityState } from 'src/ReportBuilder/state/reducers/compatibility';
-import { ITranslations, setTranslations, translate } from 'src/ReportBuilder/translations';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -32,6 +32,7 @@ interface IStateProps {
   selectedScope: string;
   graphNames: IAsyncState<string[]>;
   selectedGraph: string;
+  t: ITranslations;
 }
 
 interface IDispatchProps {
@@ -47,6 +48,7 @@ interface IDispatchProps {
   onGraphChanged: (payload: ILoadGraphNodesPayloadRequest) => void;
   onLoadReportRequest: (reportRequest: Partial<IReportRequest>) => void;
   onGenerateReportRequest: () => void;
+  setTranslations: (translations: Partial<ITranslations>) => void;
 }
 
 interface IDefaultProps {
@@ -108,7 +110,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
   public constructor(props: IProps) {
     super(props);
 
-    const { apiRequestOptions, translations, defaultRowsOffset, defaultRowsLimit } = this.props;
+    const { apiRequestOptions, translations, defaultRowsOffset, defaultRowsLimit, setTranslations } = this.props;
 
     initPeekdataApi(apiRequestOptions);
     setTranslations(translations);
@@ -130,7 +132,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
   }
 
   public componentDidUpdate(prevProps: IProps) {
-    const { translations, apiRequestOptions, onLoadReportRequest, reportRequest, onChangeStartWithRow, onChangeLimitRowsTo, defaultRowsOffset, defaultRowsLimit } = this.props;
+    const { translations, apiRequestOptions, onLoadReportRequest, reportRequest, onChangeStartWithRow, onChangeLimitRowsTo, defaultRowsOffset, defaultRowsLimit, setTranslations } = this.props;
     const prevTranslations = prevProps && prevProps.translations;
     const prevApiRequestOptions = prevProps && prevProps.apiRequestOptions;
     const prevReportRequest = prevProps && prevProps.reportRequest;
@@ -175,7 +177,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
   // #region -------------- Graph dropdowns -------------------------------------------------------------------
 
   private renderGraphDropDowns = () => {
-    const { scopeNames, graphNames, selectedScope, selectedGraph, onScopeChanged, onGraphChanged, showScopesDropdown, showGraphsDropdown } = this.props;
+    const { scopeNames, graphNames, selectedScope, selectedGraph, onScopeChanged, onGraphChanged, showScopesDropdown, showGraphsDropdown, t } = this.props;
 
     return (
       <GraphDropDowns
@@ -187,6 +189,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
         showGraphsDropdown={showGraphsDropdown}
         onScopeChanged={onScopeChanged}
         onGraphChanged={onGraphChanged}
+        t={t}
       />
     );
   }
@@ -276,14 +279,14 @@ class ReportBuilder extends React.PureComponent<IProps> {
   // #region -------------- Content title -------------------------------------------------------------------
 
   private renderContentTitle = () => {
-    const { showContentTitle } = this.props;
+    const { showContentTitle, t } = this.props;
 
     if (!showContentTitle) {
       return null;
     }
 
     return (
-      <div className='rb-title-dark rb-title-small'>{translate(t => t.contentTitle)}</div>
+      <div className='rb-title-dark rb-title-small'>{t.contentTitle}</div>
     );
   }
 
@@ -306,7 +309,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
   // #region -------------- Dimensions/Metrics lists -------------------------------------------------------------------
 
   private renderDimensionsList = () => {
-    const { dimensions, selectedDimensions, onOptionAdded, onOptionSelected, onOptionUnselected, onSortEnd, showDimensionsList } = this.props;
+    const { dimensions, selectedDimensions, onOptionAdded, onOptionSelected, onOptionUnselected, onSortEnd, showDimensionsList, t } = this.props;
 
     if (!showDimensionsList || !dimensions || !dimensions.data || dimensions.data.length === 0) {
       return null;
@@ -317,22 +320,23 @@ class ReportBuilder extends React.PureComponent<IProps> {
         options={dimensions.data}
         selectedOptions={selectedDimensions}
         optionType={ReportColumnType.dimension}
-        listTitle={translate(t => t.dimensionsListTitle)}
-        placeholder={translate(t => t.dimensionPlaceholder)}
-        noResultsText={translate(t => t.noDimensionsText)}
-        buttonTitle={translate(t => t.addDimensionButtonText)}
+        listTitle={t.dimensionsListTitle}
+        placeholder={t.dimensionPlaceholder}
+        noResultsText={t.noDimensionsText}
+        buttonTitle={t.addDimensionButtonText}
         onOptionAdded={onOptionAdded}
         onOptionSelected={onOptionSelected}
         onOptionUnselected={onOptionUnselected}
         onSortOrder={this.onSortOrder}
         onSortEnd={onSortEnd}
         isOptional={true}
+        t={t}
       />
     );
   }
 
   private renderMetricsList = () => {
-    const { metrics, selectedMetrics, onOptionAdded, onOptionSelected, onOptionUnselected, onSortEnd, showMetricsList } = this.props;
+    const { metrics, selectedMetrics, onOptionAdded, onOptionSelected, onOptionUnselected, onSortEnd, showMetricsList, t } = this.props;
 
     if (!showMetricsList || !metrics || !metrics.data || metrics.data.length === 0) {
       return null;
@@ -343,15 +347,16 @@ class ReportBuilder extends React.PureComponent<IProps> {
         options={metrics.data}
         selectedOptions={selectedMetrics}
         optionType={ReportColumnType.metric}
-        listTitle={translate(t => t.metricsListTitle)}
-        placeholder={translate(t => t.metricPlaceholder)}
-        noResultsText={translate(t => t.noMetricsText)}
-        buttonTitle={translate(t => t.addMetricButtonText)}
+        listTitle={t.metricsListTitle}
+        placeholder={t.metricPlaceholder}
+        noResultsText={t.noMetricsText}
+        buttonTitle={t.addMetricButtonText}
         onOptionAdded={onOptionAdded}
         onOptionSelected={onOptionSelected}
         onOptionUnselected={onOptionUnselected}
         onSortOrder={this.onSortOrder}
         onSortEnd={onSortEnd}
+        t={t}
       />
     );
   }
@@ -384,7 +389,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
   // #region -------------- Rows limit -------------------------------------------------------------------
 
   private renderRowsLimit = () => {
-    const { limitRowsTo, startWithRow, showRowsOffset, showRowsLimit, maxRowsLimit } = this.props;
+    const { limitRowsTo, startWithRow, showRowsOffset, showRowsLimit, maxRowsLimit, t } = this.props;
 
     return (
       <RowsLimitInput
@@ -395,6 +400,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
         onStartWithRowChanged={this.onChangeStartWithRow}
         onLimitRowsToChanged={this.onChangeLimitRowsTo}
         maxRowsLimit={maxRowsLimit}
+        t={t}
       />
     );
   }
@@ -470,7 +476,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
 
 const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IReportBuilderState>(
   (state) => {
-    const { dimensions, metrics, selectedDimensions, selectedMetrics, compatibility, limitRowsTo, startWithRow, request, scopeNames, graphNames } = state;
+    const { dimensions, metrics, selectedDimensions, selectedMetrics, compatibility, limitRowsTo, startWithRow, request, scopeNames, graphNames, translations } = state;
 
     return {
       dimensions,
@@ -485,6 +491,7 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
       selectedScope: scopeNames && scopeNames.selectedScope,
       graphNames: graphNames && graphNames.graphNames,
       selectedGraph: graphNames && graphNames.selectedGraph,
+      t: translations,
     };
   },
   (dispatch) => {
@@ -501,6 +508,7 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
       onGraphChanged: (payload: ILoadGraphNodesPayloadRequest) => dispatch(loadGraphNodes(payload)),
       onLoadReportRequest: (reportRequest: Partial<IReportRequest>) => dispatch(loadReportRequest(reportRequest)),
       onGenerateReportRequest: () => dispatch(generateReportRequest()),
+      setTranslations: (translations: Partial<ITranslations>) => dispatch(setTranslations(translations)),
     };
   },
 )(ReportBuilder);

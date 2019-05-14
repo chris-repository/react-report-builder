@@ -1,35 +1,11 @@
-// #region -------------- Interfaces -------------------------------------------------------------------
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 
-export type ITranslations = typeof translations;
-type TranslationSelector = (translations: ITranslations) => string;
-
-// #endregion
-
-// #region -------------- Helpers -------------------------------------------------------------------
-
-export function translate(selector: TranslationSelector): string {
-  return selector(translations);
-}
-
-export function setTranslations(newTranslations: Partial<ITranslations>) {
-  if (!newTranslations) {
-    return;
-  }
-
-  translations = {
-    ...translations,
-    ...newTranslations,
-  };
-}
-
-// #endregion
-
-// #region -------------- Translations -------------------------------------------------------------------
-
-let translations = {
-  contentTitle: 'Report content',
+export const translations: ITranslations = {
   scopesDropdownTitle: 'Choose your Business Scope/Domain',
+  scopesPlaceholder: 'Scope',
   graphsDropdownTitle: 'Data Source',
+  graphsPlaceholder: 'Data Source',
+  contentTitle: 'Report content',
   dimensionsListTitle: 'Dimensions',
   dimensionPlaceholder: 'Select dimension',
   noDimensionsText: 'No dimensions found',
@@ -39,11 +15,14 @@ let translations = {
   noMetricsText: 'No metrics found',
   addMetricButtonText: 'Add metric',
   filtersText: 'Filters',
+  addFilterButton: 'Add filter',
   optionalLabel: 'optional',
   rowsOffset: 'Start with row',
   rowsLimit: 'Limit number of rows to',
   chartTab: 'Chart',
   tableTab: 'Table',
+  filterTypePlaceholder: 'Filter Type',
+  filterOperationPlaceholder: 'Operation',
   filterFromLabel: 'from',
   filterToLabel: 'to',
   filterValuesDescription: 'The possible values have to be separated by a semicolon.',
@@ -51,6 +30,9 @@ let translations = {
   filterTypeDateRange: 'Date Range',
   filterTypeSingleKey: 'Single Key',
   filterTypeSingleValue: 'Single Value',
+  filterSingleKeyPlaceholder: 'Key',
+  filterSingleValueKeysPlaceholder: 'Keys',
+  filterSingleValuePlaceholder: 'Value',
   filterOperationEquals: 'EQUALS',
   filterOperationNotEquals: 'NOT_EQUALS',
   filterOperationStartsWith: 'STARTS_WITH',
@@ -59,11 +41,26 @@ let translations = {
   filterOperationAllIsMore: 'ALL_IS_MORE',
   filterOperationAtLeastOneIsLess: 'AT_LEAST_ONE_IS_LESS',
   filterOperationAtLeastOneIsMore: 'AT_LEAST_ONE_IS_MORE',
+  viewRequestPayload: 'View request payload',
+  viewRequestAsCURL: 'View request as cURL',
+  viewResponseAsOptimizedDataJson: 'View response as optimized JSON',
+  viewResponseAsFullDataJson: 'View response as full JSON',
+  viewResponseAsSQL: 'View response as SQL',
+  viewResponseAsCSV: 'View response as CSV',
+  copyToClipboardButton: 'Copy to clipboard',
+  copiedToClipboardMessage: 'Copied to clipboard',
   chartTypeBar: 'Bar',
   chartTypeLine: 'Line',
   chartTypePie: 'Pie',
   chartTypeDoughnut: 'Doughnut',
   chartTypeRadar: 'Radar',
+  tablePreviousText: 'Previous',
+  tableNextText: 'Next',
+  tableLoadingText: 'Loading...',
+  tableNoDataText: 'No rows found',
+  tablePageText: 'Page',
+  tableOfText: 'of',
+  tableRowsText: 'rows',
+  tablePageJumpText: 'jump to page',
+  tableRowsSelectorText: 'rows per page',
 };
-
-// #endregion

@@ -5,6 +5,7 @@ import Modal from 'react-responsive-modal';
 import { ContentWithCopy } from 'src/ReportBuilder/components/ContentWithCopy';
 import { SplitButtonDropDown } from 'src/ReportBuilder/components/SplitButtonDropDown';
 import { Languages } from 'src/ReportBuilder/constants/languages';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
 import { generateCUrl } from 'src/ReportBuilder/utils/UrlUtils';
 
@@ -16,10 +17,10 @@ const viewRequestModalCssClasses = {
   closeButton: 'rb-close-button',
 };
 
-const viewRequestOptions = {
-  viewRequestPayload: 'View request payload',
-  viewRequestAsCURL: 'View request as cURL',
-};
+enum ViewRequestOptions {
+  payload = 'payload',
+  curl = 'curl',
+}
 
 // #endregion
 
@@ -27,6 +28,7 @@ const viewRequestOptions = {
 
 interface IStateProps {
   request: IReportRequest;
+  t: ITranslations;
 }
 
 interface IDispatchProps { }
@@ -51,7 +53,7 @@ class ViewRequest extends React.PureComponent<IProps, IState> {
 
     this.state = {
       isOpen: false,
-      selected: viewRequestOptions.viewRequestPayload,
+      selected: ViewRequestOptions.payload,
     };
   }
 
@@ -60,14 +62,23 @@ class ViewRequest extends React.PureComponent<IProps, IState> {
       <div className='rb-view-request-dropdown-container'>
         <SplitButtonDropDown
           id='rb-view-request-dropdown'
-          title={viewRequestOptions.viewRequestPayload}
-          options={Object.values(viewRequestOptions)}
+          value={ViewRequestOptions.payload}
+          options={this.getOptions()}
           onSelect={this.onSelect}
         />
 
         {this.renderViewRequestModal()}
       </div>
     );
+  }
+
+  private getOptions = () => {
+    const { t } = this.props;
+
+    return new Map<string, string>([
+      [ViewRequestOptions.payload, t.viewRequestPayload],
+      [ViewRequestOptions.curl, t.viewRequestAsCURL],
+    ]);
   }
 
   private onSelect = (newSelected: string) => {
@@ -82,7 +93,8 @@ class ViewRequest extends React.PureComponent<IProps, IState> {
 
   private renderViewRequestModal() {
     const { isOpen, selected } = this.state;
-    const { request } = this.props;
+    const { request, t } = this.props;
+    const options = this.getOptions();
 
     if (!request) {
       return null;
@@ -93,14 +105,14 @@ class ViewRequest extends React.PureComponent<IProps, IState> {
     let language = null;
 
     switch (selected) {
-      case viewRequestOptions.viewRequestPayload:
+      case ViewRequestOptions.payload:
         body = request;
-        title = viewRequestOptions.viewRequestPayload;
+        title = options.get(ViewRequestOptions.payload);
         language = Languages.json;
         break;
-      case viewRequestOptions.viewRequestAsCURL:
+      case ViewRequestOptions.curl:
         body = generateCUrl(JSON.stringify(request), '/select/dataoptimized');
-        title = viewRequestOptions.viewRequestAsCURL;
+        title = options.get(ViewRequestOptions.curl);
         language = Languages.powershell;
         break;
       default:
@@ -119,7 +131,7 @@ class ViewRequest extends React.PureComponent<IProps, IState> {
         animationDuration={300}
       >
         <div className='rb-title-dark rb-title-medium'>{title}</div>
-        <ContentWithCopy body={body} language={language} />
+        <ContentWithCopy body={body} language={language} t={t} />
       </Modal>
     );
   }
@@ -145,10 +157,11 @@ class ViewRequest extends React.PureComponent<IProps, IState> {
 
 const connected = connect<IStateProps, IDispatchProps, IOwnProps, IReportBuilderState>(
   (state) => {
-    const { request } = state;
+    const { request, translations } = state;
 
     return {
       request,
+      t: translations,
     };
   },
 )(ViewRequest);

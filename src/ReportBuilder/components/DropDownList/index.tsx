@@ -32,6 +32,7 @@ export class DropDownList extends Component<IProps, IState> {
   public render() {
     const { listVisible } = this.state;
     const { list, disabled, selected, defaultLabel } = this.props;
+    const title = selected && list ? list.get(selected) : defaultLabel;
 
     return (
       <div className={classnames({
@@ -47,7 +48,7 @@ export class DropDownList extends Component<IProps, IState> {
           onClick={this.show}
         >
           <div className='rb-selection-title'>
-            {selected ? selected : defaultLabel}
+            {title}
           </div>
           <div className='rb-selection-icon'>
             <div className='rb-dropdown-icon' />

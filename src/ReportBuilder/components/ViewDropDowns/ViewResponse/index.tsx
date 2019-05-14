@@ -5,6 +5,7 @@ import Modal from 'react-responsive-modal';
 import { ContentWithCopy } from 'src/ReportBuilder/components/ContentWithCopy';
 import { SplitButtonDropDown } from 'src/ReportBuilder/components/SplitButtonDropDown';
 import { Languages } from 'src/ReportBuilder/constants/languages';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
 import { loadCsvFile, loadDataFull, loadDataOptimized, loadSelect } from 'src/ReportBuilder/state/actions';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
@@ -17,12 +18,12 @@ const viewResponseModalCssClasses = {
   closeButton: 'rb-close-button',
 };
 
-const viewResponseOptions = {
-  viewResponseAsOptimizedDataJson: 'View response as optimized JSON',
-  viewResponseAsFullDataJson: 'View response as full JSON',
-  viewResponseAsSQL: 'View response as SQL',
-  viewResponseAsCSV: 'View response as CSV',
-};
+enum ViewResponseOption {
+  optimizedJson = 'optimizedJson',
+  fullJson = 'fullJson',
+  sql = 'sql',
+  csv = 'csv',
+}
 
 // #endregion
 
@@ -34,6 +35,7 @@ interface IStateProps {
   file: IAsyncState<string>;
   select: IAsyncState<string>;
   request: IReportRequest;
+  t: ITranslations;
 }
 
 interface IDispatchProps {
@@ -63,7 +65,7 @@ class ViewResponse extends React.PureComponent<IProps, IState> {
 
     this.state = {
       isOpen: false,
-      selected: viewResponseOptions.viewResponseAsOptimizedDataJson,
+      selected: ViewResponseOption.optimizedJson,
     };
   }
 
@@ -83,22 +85,22 @@ class ViewResponse extends React.PureComponent<IProps, IState> {
 
     if (selected !== prevSelected || (request && prevRequest && request !== prevRequest)) {
       switch (selected) {
-        case viewResponseOptions.viewResponseAsFullDataJson:
+        case ViewResponseOption.fullJson:
           if (!dataFull || (!dataFull.data && !dataFull.error)) {
             onLoadDataFull(request);
           }
           break;
-        case viewResponseOptions.viewResponseAsOptimizedDataJson:
+        case ViewResponseOption.optimizedJson:
           if (!dataOptimized || (!dataOptimized.data && !dataOptimized.error)) {
             onLoadDataOptimized(request);
           }
           break;
-        case viewResponseOptions.viewResponseAsCSV:
+        case ViewResponseOption.csv:
           if (!file || (!file.data && !file.error)) {
             onLoadCsvFile(request);
           }
           break;
-        case viewResponseOptions.viewResponseAsSQL:
+        case ViewResponseOption.sql:
           if (!select || (!select.data && !select.error)) {
             onLoadSelect(request);
           }
@@ -113,14 +115,25 @@ class ViewResponse extends React.PureComponent<IProps, IState> {
       <div className='rb-view-response-dropdown-container'>
         <SplitButtonDropDown
           id='rb-view-response-dropdown'
-          title={viewResponseOptions.viewResponseAsOptimizedDataJson}
-          options={Object.values(viewResponseOptions)}
+          value={ViewResponseOption.optimizedJson}
+          options={this.getOptions()}
           onSelect={this.onSelect}
         />
 
         {this.renderViewResponseModal()}
       </div>
     );
+  }
+
+  private getOptions = () => {
+    const { t } = this.props;
+
+    return new Map<string, string>([
+      [ViewResponseOption.optimizedJson, t.viewResponseAsOptimizedDataJson],
+      [ViewResponseOption.fullJson, t.viewResponseAsFullDataJson],
+      [ViewResponseOption.sql, t.viewResponseAsSQL],
+      [ViewResponseOption.csv, t.viewResponseAsCSV],
+    ]);
   }
 
   private onSelect = (newSelected: string) => {
@@ -135,30 +148,31 @@ class ViewResponse extends React.PureComponent<IProps, IState> {
 
   private renderViewResponseModal() {
     const { isOpen, selected } = this.state;
-    const { dataFull, dataOptimized, file, select } = this.props;
+    const { dataFull, dataOptimized, file, select, t } = this.props;
+    const options = this.getOptions();
 
     let body = null;
     let title = null;
     let language = null;
 
     switch (selected) {
-      case viewResponseOptions.viewResponseAsFullDataJson:
+      case ViewResponseOption.fullJson:
         body = dataFull && dataFull.data;
-        title = viewResponseOptions.viewResponseAsFullDataJson;
+        title = options.get(ViewResponseOption.fullJson);
         language = Languages.json;
         break;
-      case viewResponseOptions.viewResponseAsOptimizedDataJson:
+      case ViewResponseOption.optimizedJson:
         body = dataOptimized && dataOptimized.data;
-        title = viewResponseOptions.viewResponseAsOptimizedDataJson;
+        title = options.get(ViewResponseOption.optimizedJson);
         language = Languages.json;
         break;
-      case viewResponseOptions.viewResponseAsCSV:
+      case ViewResponseOption.csv:
         body = file && file.data;
-        title = viewResponseOptions.viewResponseAsCSV;
+        title = options.get(ViewResponseOption.csv);
         break;
-      case viewResponseOptions.viewResponseAsSQL:
+      case ViewResponseOption.sql:
         body = select && select.data;
-        title = viewResponseOptions.viewResponseAsSQL;
+        title = options.get(ViewResponseOption.sql);
         language = Languages.sql;
         break;
       default:
@@ -177,7 +191,7 @@ class ViewResponse extends React.PureComponent<IProps, IState> {
         animationDuration={300}
       >
         <div className='rb-title-dark rb-title-medium'>{title}</div>
-        <ContentWithCopy body={body} language={language} />
+        <ContentWithCopy body={body} language={language} t={t} />
       </Modal>
     );
   }
@@ -203,7 +217,7 @@ class ViewResponse extends React.PureComponent<IProps, IState> {
 
 const connected = connect<IStateProps, IDispatchProps, IOwnProps, IReportBuilderState>(
   (state) => {
-    const { dataFull, dataOptimized, file, select, request } = state;
+    const { dataFull, dataOptimized, file, select, request, translations } = state;
 
     return {
       dataFull,
@@ -211,6 +225,7 @@ const connected = connect<IStateProps, IDispatchProps, IOwnProps, IReportBuilder
       file,
       select,
       request,
+      t: translations,
     };
   },
   (dispatch) => {
