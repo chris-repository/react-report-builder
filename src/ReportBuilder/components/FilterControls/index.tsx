@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { ButtonWithIcon } from 'src/ReportBuilder/components/ButtonWithIcon';
 import { IFilter } from 'src/ReportBuilder/models/filter';
 import { IDimension } from 'src/ReportBuilder/models/graph';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { addFilter, changeFilterInput, generateReportRequest, IChangeFilterInput, ISelectFilter, removeFilter, selectFilterOption } from 'src/ReportBuilder/state/actions';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
-import { translate } from 'src/ReportBuilder/translations';
 import { FilterControl } from './FilterControl';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -14,6 +14,7 @@ import { FilterControl } from './FilterControl';
 interface IStateProps {
   filters: IFilter[];
   dimensions: IDimension[];
+  t: ITranslations;
 }
 
 interface IDispatchProps {
@@ -35,11 +36,11 @@ interface IProps extends IStateProps, IDispatchProps, IOwnProps { }
 class FilterControls extends React.PureComponent<IProps> {
 
   public render() {
-    const { filters, dimensions, onFilterOptionSelected, onFilterInputChanged, onFilterAddClicked, onFilterRemoveClicked, onGenerateReportRequest } = this.props;
+    const { filters, dimensions, onFilterOptionSelected, onFilterInputChanged, onFilterAddClicked, onFilterRemoveClicked, onGenerateReportRequest, t } = this.props;
 
     return (
       <div className='rb-report-filters'>
-        <div className='rb-title-dark rb-title-extra-small'>{translate(t => t.filtersText)} <span>- {translate(t => t.optionalLabel)}</span></div>
+        <div className='rb-title-dark rb-title-extra-small'>{t.filtersText} <span>- {t.optionalLabel}</span></div>
 
         {filters && filters.length !== 0 && <div className='rb-filter-container'>
           {filters.map((filter, index) =>
@@ -51,13 +52,14 @@ class FilterControls extends React.PureComponent<IProps> {
               onFilterOptionSelected={onFilterOptionSelected}
               onFilterInputChanged={onFilterInputChanged}
               onGenerateReportRequest={onGenerateReportRequest}
+              t={t}
             />,
           )}
         </div>}
 
         <div className='rb-btn-container'>
           <ButtonWithIcon
-            title='Add filter'
+            title={t.addFilterButton}
             styleClasses='rb-btn-small rb-btn-crimson'
             icon={faPlusCircle}
             onClick={onFilterAddClicked}
@@ -74,11 +76,12 @@ class FilterControls extends React.PureComponent<IProps> {
 
 const connected = connect<IStateProps, IDispatchProps, IOwnProps, IReportBuilderState>(
   (state) => {
-    const { filters, dimensions } = state;
+    const { filters, dimensions, translations } = state;
 
     return {
       filters,
       dimensions: dimensions && dimensions.data,
+      t: translations,
     };
   },
   (dispatch) => {

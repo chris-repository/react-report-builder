@@ -4,7 +4,7 @@ import React from 'react';
 import { SortableContainer } from 'react-sortable-hoc';
 import { ButtonWithIcon } from 'src/ReportBuilder/components/ButtonWithIcon';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
-import { translate } from 'src/ReportBuilder/translations';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { ISortableItemProps } from './DragHandle';
 import { SortableItem } from './SortableItem';
 import { SortButton } from './SortButton';
@@ -17,6 +17,7 @@ export interface ISortableListProps extends ISortableItemProps {
   listTitle: string;
   showButton?: boolean;
   isOptional?: boolean;
+  t: ITranslations;
   onOptionAdded: (payload: ReportColumnType) => void;
 }
 
@@ -27,11 +28,11 @@ export interface ISortableListProps extends ISortableItemProps {
 class SortableList extends React.PureComponent<ISortableListProps> {
 
   public render() {
-    const { options, selectedOptions, optionType, buttonTitle, showButton, listTitle, isOptional, onOptionAdded, ...otherProps } = this.props;
+    const { options, selectedOptions, optionType, buttonTitle, showButton, listTitle, isOptional, onOptionAdded, t, ...otherProps } = this.props;
 
     return (
       <div>
-        <div className='rb-title-dark rb-title-extra-small'>{listTitle} {isOptional && <span>- {translate(t => t.optionalLabel)}</span>}</div>
+        <div className='rb-title-dark rb-title-extra-small'>{listTitle} {isOptional && <span>- {t.optionalLabel}</span>}</div>
         <div className='rb-report-options'>
 
           {selectedOptions.map((selectedOption, index) => {

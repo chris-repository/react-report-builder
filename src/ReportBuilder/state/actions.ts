@@ -2,6 +2,7 @@ import { IGraphNode, IGraphReportCompatibility, INotOptimizedReportResponse, IOp
 import { FilterOptionTypes, IFilter } from 'src/ReportBuilder/models/filter';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
 import { IAction, IAsyncState } from 'src/ReportBuilder/state/action';
+import { ITranslations } from '../models/translations';
 
 // #region -------------- Action types -------------------------------------------------------------------
 
@@ -40,6 +41,7 @@ export const actionTypes = {
   dataFullLoaded: 'reportBuilder/DATA_FULL_LOADED',
   loadCsvFile: 'reportBuilder/LOAD_CSV_FILE',
   csvFileLoaded: 'reportBuilder/CSV_FILE_LOADED',
+  setTranslations: 'reportBuilder/SET_TRANSLATIONS',
 };
 
 // #endregion
@@ -332,6 +334,17 @@ export function loadCsvFile(payload: IReportRequest): IAction {
 export function csvFileLoaded(payload: IAsyncState<string>): IAction {
   return {
     type: actionTypes.csvFileLoaded,
+    payload,
+  };
+}
+
+// #endregion
+
+// #region -------------- Translations -------------------------------------------------------------------
+
+export function setTranslations(payload: Partial<ITranslations>) {
+  return {
+    type: actionTypes.setTranslations,
     payload,
   };
 }

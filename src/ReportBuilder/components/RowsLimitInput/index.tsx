@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputNumber } from 'src/ReportBuilder/components/inputs/InputNumber';
-import { translate } from 'src/ReportBuilder/translations';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -10,6 +10,7 @@ interface IProps {
   showRowsOffset: boolean;
   showRowsLimit: boolean;
   maxRowsLimit: number;
+  t: ITranslations;
   onStartWithRowChanged(value: number);
   onLimitRowsToChanged(value: number);
 }
@@ -30,7 +31,7 @@ export class RowsLimitInput extends React.PureComponent<IProps> {
   }
 
   private renderOffsetField = () => {
-    const { startWithRow, onStartWithRowChanged, showRowsOffset } = this.props;
+    const { startWithRow, onStartWithRowChanged, showRowsOffset, t } = this.props;
 
     if (!showRowsOffset) {
       return null;
@@ -38,7 +39,7 @@ export class RowsLimitInput extends React.PureComponent<IProps> {
 
     return (
       <div className='rb-limit-rows-input-container'>
-        <div className='rb-title-dark rb-title-extra-small'>{translate(t => t.rowsOffset)}</div>
+        <div className='rb-title-dark rb-title-extra-small'>{t.rowsOffset}</div>
 
         <InputNumber
           value={startWithRow}
@@ -50,7 +51,7 @@ export class RowsLimitInput extends React.PureComponent<IProps> {
   }
 
   private renderRowsLimitField = () => {
-    const { limitRowsTo, onLimitRowsToChanged, showRowsLimit, maxRowsLimit } = this.props;
+    const { limitRowsTo, onLimitRowsToChanged, showRowsLimit, maxRowsLimit, t } = this.props;
 
     if (!showRowsLimit) {
       return null;
@@ -58,7 +59,7 @@ export class RowsLimitInput extends React.PureComponent<IProps> {
 
     return (
       <div className='rb-limit-rows-input-container'>
-        <div className='rb-title-dark rb-title-extra-small'>{translate(t => t.rowsLimit)}</div>
+        <div className='rb-title-dark rb-title-extra-small'>{t.rowsLimit}</div>
 
         <InputNumber
           value={limitRowsTo}

@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { DropDownList } from 'src/ReportBuilder/components/DropDownList';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
 import { ILoadGraphNodesPayloadRequest } from 'src/ReportBuilder/state/actions';
-import { translate } from 'src/ReportBuilder/translations';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -16,6 +16,7 @@ interface IProps extends IDefaultProps {
   graphNames: IAsyncState<string[]>;
   selectedScope: string;
   selectedGraph: string;
+  t: ITranslations;
   onScopeChanged: (scope: string) => void;
   onGraphChanged: (payload: ILoadGraphNodesPayloadRequest) => void;
 }
@@ -67,7 +68,7 @@ export class GraphDropDowns extends React.Component<IProps> {
   // #region -------------- Scope dropdown -------------------------------------------------------------------
 
   private renderScopeDesktopTitle = () => {
-    const { showScopesDropdown } = this.props;
+    const { showScopesDropdown, t } = this.props;
 
     if (!showScopesDropdown) {
       return null;
@@ -75,13 +76,13 @@ export class GraphDropDowns extends React.Component<IProps> {
 
     return (
       <div className='col-md-4 col-sm-5'>
-        <div className='rb-title-dark rb-title-small'>{translate(t => t.scopesDropdownTitle)}</div>
+        <div className='rb-title-dark rb-title-small'>{t.scopesDropdownTitle}</div>
       </div>
     );
   }
 
   private renderScopeDropDown = () => {
-    const { scopeNames, selectedScope, onScopeChanged, showScopesDropdown } = this.props;
+    const { scopeNames, selectedScope, onScopeChanged, showScopesDropdown, t } = this.props;
 
     if (!showScopesDropdown) {
       return null;
@@ -92,10 +93,10 @@ export class GraphDropDowns extends React.Component<IProps> {
 
     return (
       <div className='col-md-4 col-sm-5'>
-        <div className='rb-title-dark rb-title-small visible-xs'>{translate(t => t.scopesDropdownTitle)}</div>
+        <div className='rb-title-dark rb-title-small visible-xs'>{t.scopesDropdownTitle}</div>
         <DropDownList
           list={list}
-          defaultLabel='Scope'
+          defaultLabel={t.scopesPlaceholder}
           selected={selectedScope}
           itemSelectedCallback={onScopeChanged}
         />
@@ -108,7 +109,7 @@ export class GraphDropDowns extends React.Component<IProps> {
   // #region -------------- Graph dropdown -------------------------------------------------------------------
 
   private renderGraphDesktopTitle = () => {
-    const { showGraphsDropdown } = this.props;
+    const { showGraphsDropdown, t } = this.props;
 
     if (!showGraphsDropdown) {
       return null;
@@ -116,13 +117,13 @@ export class GraphDropDowns extends React.Component<IProps> {
 
     return (
       <div className='col-md-4 col-sm-5'>
-        <div className='rb-title-dark rb-title-small'>{translate(t => t.graphsDropdownTitle)}</div>
+        <div className='rb-title-dark rb-title-small'>{t.graphsDropdownTitle}</div>
       </div>
     );
   }
 
   private renderGraphDropDown = () => {
-    const { graphNames, selectedGraph, showGraphsDropdown } = this.props;
+    const { graphNames, selectedGraph, showGraphsDropdown, t } = this.props;
 
     if (!showGraphsDropdown) {
       return null;
@@ -133,10 +134,10 @@ export class GraphDropDowns extends React.Component<IProps> {
 
     return (
       <div className='col-md-4 col-sm-5'>
-        <div className='rb-title-dark rb-title-small visible-xs'>{translate(t => t.graphsDropdownTitle)}</div>
+        <div className='rb-title-dark rb-title-small visible-xs'>{t.graphsDropdownTitle}</div>
         <DropDownList
           list={list}
-          defaultLabel='Data Source'
+          defaultLabel={t.graphsPlaceholder}
           selected={selectedGraph}
           itemSelectedCallback={this.onGraphChanged}
         />

@@ -1,12 +1,14 @@
 import { IOptimizedReportResponse } from 'peekdata-datagateway-api-sdk';
 import React from 'react';
 import ReactTable, { Column } from 'react-table';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import 'src/style/components/table.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
 interface IProps {
   data: IOptimizedReportResponse;
+  t: ITranslations;
 }
 
 // #endregion
@@ -15,7 +17,7 @@ interface IProps {
 
 export class ReportTable extends React.Component<IProps> {
   public render() {
-    const { data } = this.props;
+    const { data, t } = this.props;
 
     if (!data) {
       return null;
@@ -48,6 +50,15 @@ export class ReportTable extends React.Component<IProps> {
           className='-striped'
           data={tableData}
           columns={columns}
+          previousText={t.tablePreviousText}
+          nextText={t.tableNextText}
+          loadingText={t.tableLoadingText}
+          noDataText={t.tableNoDataText}
+          pageText={t.tablePageText}
+          ofText={t.tableOfText}
+          rowsText={t.tableRowsText}
+          pageJumpText={t.tablePageJumpText}
+          rowsSelectorText={t.tableRowsSelectorText}
         />
       </div>
     );

@@ -8,8 +8,8 @@ import { DropDownList } from 'src/ReportBuilder/components/DropDownList';
 import { DropDownListWithSearch } from 'src/ReportBuilder/components/DropDownListWithSearch';
 import { FilterOptionTypes, FilterTypes, IFilter } from 'src/ReportBuilder/models/filter';
 import { IDimension } from 'src/ReportBuilder/models/graph';
+import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { IChangeFilterInput, ISelectFilter } from 'src/ReportBuilder/state/actions';
-import { translate } from 'src/ReportBuilder/translations';
 import 'src/style/components/filterControl.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -17,6 +17,7 @@ import 'src/style/components/filterControl.scss';
 interface IProps {
   filter: IFilter;
   dimensions: IDimension[];
+  t: ITranslations;
   onFilterOptionSelected: (payload: ISelectFilter) => void;
   onFilterInputChanged: (payload: IChangeFilterInput) => void;
   onFilterRemoveClicked: (filter: IFilter) => void;
@@ -34,7 +35,7 @@ export class FilterControl extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { filter } = this.props;
+    const { filter, t } = this.props;
 
     return (
       <div className='rb-filter-control'>
@@ -44,7 +45,7 @@ export class FilterControl extends React.PureComponent<IProps> {
         <div className='rb-filter-dropdown'>
           <DropDownList
             list={this.getFilterTypeOptions()}
-            defaultLabel='Filter Type'
+            defaultLabel={t.filterTypePlaceholder}
             selected={filter.filterType}
             itemSelectedCallback={this.onTypeSelected}
           />
@@ -61,10 +62,12 @@ export class FilterControl extends React.PureComponent<IProps> {
   }
 
   private getFilterTypeOptions = () => {
+    const { t } = this.props;
+
     return new Map<string, string>([
-      [FilterTypes.DateRanges, translate(t => t.filterTypeDateRange)],
-      [FilterTypes.SingleKeys, translate(t => t.filterTypeSingleKey)],
-      [FilterTypes.SingleValues, translate(t => t.filterTypeSingleValue)],
+      [FilterTypes.DateRanges, t.filterTypeDateRange],
+      [FilterTypes.SingleKeys, t.filterTypeSingleKey],
+      [FilterTypes.SingleValues, t.filterTypeSingleValue],
     ]);
   }
 
@@ -103,7 +106,7 @@ export class FilterControl extends React.PureComponent<IProps> {
   // #region -------------- Operations filter -------------------------------------------------------------------
 
   private renderOperationsFilter() {
-    const { filter } = this.props;
+    const { filter, t } = this.props;
 
     if (!filter || (filter.filterType !== FilterTypes.SingleKeys && filter.filterType !== FilterTypes.SingleValues)) {
       return null;
@@ -113,7 +116,7 @@ export class FilterControl extends React.PureComponent<IProps> {
       <div className='rb-filter-dropdown'>
         <DropDownList
           list={this.getOperationOptions()}
-          defaultLabel='Operation'
+          defaultLabel={t.filterOperationPlaceholder}
           selected={filter.operation}
           itemSelectedCallback={this.onOperationSelected}
         />
@@ -122,15 +125,17 @@ export class FilterControl extends React.PureComponent<IProps> {
   }
 
   private getOperationOptions = () => {
+    const { t } = this.props;
+
     return new Map<string, string>([
-      [ReportFilterOperationType.EQUALS, translate(t => t.filterOperationEquals)],
-      [ReportFilterOperationType.NOT_EQUALS, translate(t => t.filterOperationNotEquals)],
-      [ReportFilterOperationType.STARTS_WITH, translate(t => t.filterOperationStartsWith)],
-      [ReportFilterOperationType.NOT_STARTS_WITH, translate(t => t.filterOperationNotStartsWith)],
-      [ReportFilterOperationType.ALL_IS_LESS, translate(t => t.filterOperationAllIsLess)],
-      [ReportFilterOperationType.ALL_IS_MORE, translate(t => t.filterOperationAllIsMore)],
-      [ReportFilterOperationType.AT_LEAST_ONE_IS_LESS, translate(t => t.filterOperationAtLeastOneIsLess)],
-      [ReportFilterOperationType.AT_LEAST_ONE_IS_MORE, translate(t => t.filterOperationAtLeastOneIsMore)],
+      [ReportFilterOperationType.EQUALS, t.filterOperationEquals],
+      [ReportFilterOperationType.NOT_EQUALS, t.filterOperationNotEquals],
+      [ReportFilterOperationType.STARTS_WITH, t.filterOperationStartsWith],
+      [ReportFilterOperationType.NOT_STARTS_WITH, t.filterOperationNotStartsWith],
+      [ReportFilterOperationType.ALL_IS_LESS, t.filterOperationAllIsLess],
+      [ReportFilterOperationType.ALL_IS_MORE, t.filterOperationAllIsMore],
+      [ReportFilterOperationType.AT_LEAST_ONE_IS_LESS, t.filterOperationAtLeastOneIsLess],
+      [ReportFilterOperationType.AT_LEAST_ONE_IS_MORE, t.filterOperationAtLeastOneIsMore],
     ]);
   }
 
@@ -149,16 +154,16 @@ export class FilterControl extends React.PureComponent<IProps> {
   // #region -------------- Key/Keys filter -------------------------------------------------------------------
 
   private renderKeyFilter() {
-    const { filter, dimensions } = this.props;
+    const { filter, dimensions, t } = this.props;
 
     let isMulti: boolean = false;
     let selected: string | string[] = filter.key;
-    let placeholder: string = 'Key';
+    let placeholder: string = t.filterSingleKeyPlaceholder;
 
     if (filter.filterType === FilterTypes.SingleValues) {
       isMulti = true;
       selected = filter.keys;
-      placeholder = 'Keys';
+      placeholder = t.filterSingleValueKeysPlaceholder;
     }
 
     return (
@@ -195,7 +200,7 @@ export class FilterControl extends React.PureComponent<IProps> {
   // #region -------------- Single keys input -------------------------------------------------------------------
 
   private renderSingleKeysInput() {
-    const { filter } = this.props;
+    const { filter, t } = this.props;
 
     if (filter.filterType !== FilterTypes.SingleKeys) {
       return null;
@@ -203,8 +208,8 @@ export class FilterControl extends React.PureComponent<IProps> {
 
     return (
       <div className='rb-filter-values'>
-        <p>{translate(t => t.filterValuesDescription)}</p>
-        <p>{translate(t => t.filterValuesExample)}: <b>1;2;3</b></p>
+        <p>{t.filterValuesDescription}</p>
+        <p>{t.filterValuesExample}: <b>1;2;3</b></p>
         <input
           id='values'
           className='rb-input'
@@ -223,7 +228,7 @@ export class FilterControl extends React.PureComponent<IProps> {
   // #region -------------- Single values input -------------------------------------------------------------------
 
   private renderSingleValuesInput() {
-    const { filter } = this.props;
+    const { filter, t } = this.props;
 
     if (filter.filterType !== FilterTypes.SingleValues) {
       return null;
@@ -236,7 +241,7 @@ export class FilterControl extends React.PureComponent<IProps> {
           className='rb-input'
           name='value'
           type='text'
-          placeholder='Value'
+          placeholder={t.filterSingleValuePlaceholder}
           value={filter.value ? filter.value : ''}
           disabled={!filter.operation}
           onChange={this.onFilterInputChanged}
@@ -250,7 +255,7 @@ export class FilterControl extends React.PureComponent<IProps> {
   // #region -------------- Date ranges filter -------------------------------------------------------------------
 
   private renderDateRangesFilter() {
-    const { filter } = this.props;
+    const { filter, t } = this.props;
 
     if (!filter || filter.filterType !== FilterTypes.DateRanges) {
       return null;
@@ -259,7 +264,7 @@ export class FilterControl extends React.PureComponent<IProps> {
     return (
       <div className='rb-date-ranges-filter'>
         <div>
-          <label>{translate(t => t.filterFromLabel)}:</label>
+          <label>{t.filterFromLabel}:</label>
 
           <CustomDatePicker
             name='from'
@@ -270,7 +275,7 @@ export class FilterControl extends React.PureComponent<IProps> {
           />
         </div>
         <div>
-          <label>{translate(t => t.filterToLabel)}:</label>
+          <label>{t.filterToLabel}:</label>
 
           <CustomDatePicker
             name='to'

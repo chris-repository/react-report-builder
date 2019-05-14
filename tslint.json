@@ -43,6 +43,7 @@
       "spaces"
     ],
     "lines-between-class-members": true,
-    "no-any": false
+    "no-any": false,
+    "no-shadowed-variable": false
   }
 }

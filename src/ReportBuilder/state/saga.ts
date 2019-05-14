@@ -10,11 +10,12 @@ import { getRequestDateRangesFilters, getRequestOptions, getRequestSingleKeysFil
 import v4 from 'uuid/v4';
 import { defaultRows } from '../constants/rows';
 import { FilterTypes, IFilter } from '../models/filter';
-import { getApiErrorTranslation } from '../translations';
+import { ITranslations } from '../models/translations';
+import { isPeekdataError } from '../utils/ErrorUtils';
 
 // #region -------------- Load report request -------------------------------------------------------------------
 
-export function* onLoadReportRequest(action: IAction<Partial<IReportRequest>>) {
+function* onLoadReportRequest(action: IAction<Partial<IReportRequest>>) {
   try {
     const reportRequest = action.payload;
 
@@ -86,7 +87,7 @@ const getSorting = (sortings: IReportRequestSortings, value: string, key: string
 
 // #region -------------- Generate report request -------------------------------------------------------------------
 
-export function* onGenerateReportRequest() {
+function* onGenerateReportRequest() {
   try {
     const { scopeNames, graphNames, selectedDimensions, selectedMetrics, filters, limitRowsTo, startWithRow }: IReportBuilderState = yield select(state => state);
 
@@ -165,7 +166,7 @@ export function* onGenerateReportRequest() {
 
 // #region -------------- Load scope names -------------------------------------------------------------------
 
-export function* onLoadScopeNames() {
+function* onLoadScopeNames() {
   try {
     const scopeNames: string[] = yield peekdataApi.graph.getScopeNames();
 
@@ -176,10 +177,12 @@ export function* onLoadScopeNames() {
       errorTimestamp: null,
     }));
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(scopeNamesLoaded({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
@@ -189,7 +192,7 @@ export function* onLoadScopeNames() {
 
 // #region -------------- Load graph names -------------------------------------------------------------------
 
-export function* onLoadGraphNames(action: IAction<string>) {
+function* onLoadGraphNames(action: IAction<string>) {
   try {
     const graphNames: string[] = yield peekdataApi.graph.getGraphNames(action.payload);
 
@@ -200,10 +203,12 @@ export function* onLoadGraphNames(action: IAction<string>) {
       errorTimestamp: null,
     }));
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(graphNamesLoaded({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
@@ -213,7 +218,7 @@ export function* onLoadGraphNames(action: IAction<string>) {
 
 // #region -------------- Load dimensions -------------------------------------------------------------------
 
-export function* onLoadDimensions(action: IAction<ILoadGraphNodesPayloadRequest>) {
+function* onLoadDimensions(action: IAction<ILoadGraphNodesPayloadRequest>) {
   try {
     const scopeNames: IScopeNamesState = yield select((state: IReportBuilderState) => state.scopeNames);
     const selectedScope = scopeNames && scopeNames.selectedScope;
@@ -232,10 +237,12 @@ export function* onLoadDimensions(action: IAction<ILoadGraphNodesPayloadRequest>
       yield put(setSelectedDimensions(selectedDimensions));
     }
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(dimensionsLoaded({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
@@ -245,7 +252,7 @@ export function* onLoadDimensions(action: IAction<ILoadGraphNodesPayloadRequest>
 
 // #region -------------- Load metrics -------------------------------------------------------------------
 
-export function* onLoadMetrics(action: IAction<ILoadGraphNodesPayloadRequest>) {
+function* onLoadMetrics(action: IAction<ILoadGraphNodesPayloadRequest>) {
   try {
     const scopeNames: IScopeNamesState = yield select((state: IReportBuilderState) => state.scopeNames);
     const selectedScope = scopeNames && scopeNames.selectedScope;
@@ -264,10 +271,12 @@ export function* onLoadMetrics(action: IAction<ILoadGraphNodesPayloadRequest>) {
       yield put(setSelectedMetrics(selectedMetrics));
     }
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(metricsLoaded({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
@@ -277,7 +286,7 @@ export function* onLoadMetrics(action: IAction<ILoadGraphNodesPayloadRequest>) {
 
 // #region -------------- Check compatibility -------------------------------------------------------------------
 
-export function* onCheckCompatibility() {
+function* onCheckCompatibility() {
   try {
     const { scopeNames, graphNames, selectedDimensions, selectedMetrics }: IReportBuilderState = yield select(state => state);
 
@@ -350,10 +359,12 @@ export function* onCheckCompatibility() {
     yield put(setFilters(compatibilityFilters));
     yield put(generateReportRequest());
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(compatibilityChecked({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
@@ -363,7 +374,7 @@ export function* onCheckCompatibility() {
 
 // #region -------------- Load data full -------------------------------------------------------------------
 
-export function* onLoadDataFull(action: IAction<IReportRequest>) {
+function* onLoadDataFull(action: IAction<IReportRequest>) {
   try {
     const dataFull: INotOptimizedReportResponse = yield peekdataApi.data.getData(action.payload);
 
@@ -374,10 +385,12 @@ export function* onLoadDataFull(action: IAction<IReportRequest>) {
       errorTimestamp: null,
     }));
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(dataFullLoaded({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
@@ -387,7 +400,7 @@ export function* onLoadDataFull(action: IAction<IReportRequest>) {
 
 // #region -------------- Load data optimized -------------------------------------------------------------------
 
-export function* onLoadDataOptimized(action: IAction<IReportRequest>) {
+function* onLoadDataOptimized(action: IAction<IReportRequest>) {
   try {
     const dataOptimized: IOptimizedReportResponse = yield peekdataApi.data.getDataOptimized(action.payload);
 
@@ -398,10 +411,12 @@ export function* onLoadDataOptimized(action: IAction<IReportRequest>) {
       errorTimestamp: null,
     }));
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(dataOptimizedLoaded({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
@@ -411,7 +426,7 @@ export function* onLoadDataOptimized(action: IAction<IReportRequest>) {
 
 // #region -------------- Load csv file -------------------------------------------------------------------
 
-export function* onLoadCsvFile(action: IAction<IReportRequest>) {
+function* onLoadCsvFile(action: IAction<IReportRequest>) {
   try {
     const file: string = yield peekdataApi.data.getCSV(action.payload);
 
@@ -422,10 +437,12 @@ export function* onLoadCsvFile(action: IAction<IReportRequest>) {
       errorTimestamp: null,
     }));
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(csvFileLoaded({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
@@ -435,7 +452,7 @@ export function* onLoadCsvFile(action: IAction<IReportRequest>) {
 
 // #region -------------- Load select -------------------------------------------------------------------
 
-export function* onLoadSelect(action: IAction<IReportRequest>) {
+function* onLoadSelect(action: IAction<IReportRequest>) {
   try {
     const selectStr: string = yield peekdataApi.data.getSelect(action.payload);
 
@@ -446,13 +463,31 @@ export function* onLoadSelect(action: IAction<IReportRequest>) {
       errorTimestamp: null,
     }));
   } catch (error) {
+    const message = yield getErrorMessage(error);
+
     yield put(selectLoaded({
       data: null,
       isFetching: false,
-      error: getApiErrorTranslation(error) || error.toString(),
+      error: message,
       errorTimestamp: new Date(),
     }));
   }
+}
+
+// #endregion
+
+// #region -------------- Helpers -------------------------------------------------------------------
+
+function* getErrorMessage(error: Error) {
+  if (isPeekdataError(error)) {
+    const translations: ITranslations = yield select((state: IReportBuilderState) => state.translations);
+    const apiErrors = translations && translations.apiErrors;
+    const translation = apiErrors && apiErrors[error.code];
+
+    return translation || error.toString();
+  }
+
+  return error.toString();
 }
 
 // #endregion

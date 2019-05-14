@@ -25,7 +25,11 @@ module.exports = {
         test: /\.tsx?$/,
         loader: "awesome-typescript-loader",
         options: {
-          compiler: 'ttypescript'
+          compiler: 'ttypescript',
+          useWebpackText: true,
+          useTranspileModule: true,
+          doTypeCheck: true,
+          forkChecker: true
         }
       },
       {

@@ -1,0 +1,70 @@
+
+export interface IApiErrorTranslations {
+  [errorCode: number]: string;
+}
+
+export interface ITranslations {
+  scopesDropdownTitle: string;
+  scopesPlaceholder: string;
+  graphsDropdownTitle: string;
+  graphsPlaceholder: string;
+  contentTitle: string;
+  dimensionsListTitle: string;
+  dimensionPlaceholder: string;
+  noDimensionsText: string;
+  addDimensionButtonText: string;
+  metricsListTitle: string;
+  metricPlaceholder: string;
+  noMetricsText: string;
+  addMetricButtonText: string;
+  filtersText: string;
+  addFilterButton: string;
+  optionalLabel: string;
+  rowsOffset: string;
+  rowsLimit: string;
+  chartTab: string;
+  tableTab: string;
+  filterTypePlaceholder: string;
+  filterOperationPlaceholder: string;
+  filterFromLabel: string;
+  filterToLabel: string;
+  filterValuesDescription: string;
+  filterValuesExample: string;
+  filterTypeDateRange: string;
+  filterTypeSingleKey: string;
+  filterTypeSingleValue: string;
+  filterSingleKeyPlaceholder: string;
+  filterSingleValueKeysPlaceholder: string;
+  filterSingleValuePlaceholder: string;
+  filterOperationEquals: string;
+  filterOperationNotEquals: string;
+  filterOperationStartsWith: string;
+  filterOperationNotStartsWith: string;
+  filterOperationAllIsLess: string;
+  filterOperationAllIsMore: string;
+  filterOperationAtLeastOneIsLess: string;
+  filterOperationAtLeastOneIsMore: string;
+  viewRequestPayload: string;
+  viewRequestAsCURL: string;
+  viewResponseAsOptimizedDataJson: string;
+  viewResponseAsFullDataJson: string;
+  viewResponseAsSQL: string;
+  viewResponseAsCSV: string;
+  copyToClipboardButton: string;
+  copiedToClipboardMessage: string;
+  chartTypeBar: string;
+  chartTypeLine: string;
+  chartTypePie: string;
+  chartTypeDoughnut: string;
+  chartTypeRadar: string;
+  tablePreviousText: string;
+  tableNextText: string;
+  tableLoadingText: string;
+  tableNoDataText: string;
+  tablePageText: string;
+  tableOfText: string;
+  tableRowsText: string;
+  tablePageJumpText: string;
+  tableRowsSelectorText: string;
+  apiErrors?: IApiErrorTranslations;
+}
