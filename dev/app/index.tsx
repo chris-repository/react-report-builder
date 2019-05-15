@@ -1,7 +1,7 @@
 // @ts-nocheck
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'isomorphic-fetch';
-import { ApiErrorCode, IReportRequest, IRequestOptions, ReportSortDirectionType } from 'peekdata-datagateway-api-sdk';
+import { ApiErrorCode, IReportRequest, PeekdataApi, ReportSortDirectionType } from 'peekdata-datagateway-api-sdk';
 import React from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOM from 'react-dom';
@@ -9,6 +9,39 @@ import 'react-table/react-table.css';
 import { ITranslations, ReportBuilder } from '../../src';
 
 // #region -------------- Constants -------------------------------------------------------------------
+
+const peekdataApi = new PeekdataApi({
+  baseUrl: 'https://demo.peekdata.io:8443/datagateway/rest/v1'
+});
+
+const reportRequest: Partial<IReportRequest> = {
+  scopeName: 'Mortgage-Lending',
+  graphName: 'Servicing-PostgreSQL',
+  dimensions: [
+    'cityname',
+    'currency',
+    'countryname',
+  ],
+  metrics: [
+    'loanamount',
+    'propertyprice',
+  ],
+  filters: {
+    dateRanges: [{
+      from: '2015-01-01',
+      to: '2017-12-31',
+      key: 'closingdate',
+    }],
+  },
+  sortings: {
+    dimensions: [
+      {
+        key: 'cityname',
+        direction: ReportSortDirectionType.ASC,
+      },
+    ],
+  },
+};
 
 const translationsBefore: Partial<ITranslations> = {};
 
@@ -80,39 +113,6 @@ const translationsAfter: Partial<ITranslations> = {
   },
 };
 
-const apiRequestOptions: IRequestOptions = {
-  baseUrl: 'https://demo.peekdata.io:8443/datagateway/rest/v1'
-};
-
-const reportRequest: Partial<IReportRequest> = {
-  scopeName: 'Mortgage-Lending',
-  graphName: 'Servicing-PostgreSQL',
-  dimensions: [
-    'cityname',
-    'currency',
-    'countryname',
-  ],
-  metrics: [
-    'loanamount',
-    'propertyprice',
-  ],
-  filters: {
-    dateRanges: [{
-      from: '2015-01-01',
-      to: '2017-12-31',
-      key: 'closingdate',
-    }],
-  },
-  sortings: {
-    dimensions: [
-      {
-        key: 'cityname',
-        direction: ReportSortDirectionType.ASC,
-      },
-    ],
-  },
-};
-
 // #endregion
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -142,7 +142,7 @@ class App extends React.PureComponent<IProps, IState> {
       <div>
         <input type='button' value='Change translations' onClick={this.onChangeTranslations} />
         <ReportBuilder
-          apiRequestOptions={apiRequestOptions}
+          peekdataApi={peekdataApi}
           translations={this.state.translations}
           defaultRowsOffset={10}
           defaultRowsLimit={190}

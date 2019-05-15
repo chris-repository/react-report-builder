@@ -31,21 +31,22 @@ You will also need to require the CSS file from this package and its dependencie
 ```javascript
 import React from 'react';
 import { ReportBuilder } from 'react-report-builder';
+import { PeekdataApi } from 'peekdata-datagateway-api-sdk';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-table/react-table.css';
 import 'react-report-builder/lib/main.css';
 
-const apiRequestOptions = {
+const peekdataApi = new PeekdataApi({
   baseUrl: 'https://demo.peekdata.io:8443/datagateway/rest/v1',
   timeout: 60000,
-};
+});
 
 export class App extends React.Component {
   render() {
     return (
-      <ReportBuilder apiRequestOptions={apiRequestOptions} />
+      <ReportBuilder peekdataApi={peekdataApi} />
     );
   }
 }
@@ -100,3 +101,20 @@ const translations = {
 };
 ```
 
+
+
+## Examples
+
+JavaScript example can be found at `example/app/index.jsx` . To run it you need to:
+
+* Clone this repository
+* Install dependencies by running `npm install`
+* Execute command `npm run start:example` (it creates local package from existing source, installs it, builds the example and runs it at http://localhost:8080/)
+
+
+
+TypeScript example can be found at `dev/app/index.tsx` . To run it you need to:
+
+- Clone this repository
+- Install dependencies by running `npm install`
+- Execute command `npm start` (it builds the example and runs it at http://localhost:8080/)
