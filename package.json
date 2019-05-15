@@ -1,6 +1,6 @@
 {
   "name": "react-report-builder",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
@@ -12,7 +12,7 @@
     "package:create": "npm pack && renamer --find \"/react-report-builder-(.*).tgz/\" --replace react-report-builder.tgz *",
     "package:recreate": "npm run package:clean && npm run package:create",
     "rebuild-repack": "npm run build:rebuild && npm run package:recreate",
-    "start:example": "npm run lint && npm run rebuild-repack && cd example && npm run reinstall:react-report-builder && npm start",
+    "start:example": "npm run lint && npm run rebuild-repack && cd example && npm install && npm run reinstall:react-report-builder && npm start",
     "start": "webpack-dev-server --progress --config dev/webpack.config.dev.js"
   },
   "files": [
