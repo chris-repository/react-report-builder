@@ -1,4 +1,4 @@
-import { IReportRequest, IRequestOptions, ReportColumnType } from 'peekdata-datagateway-api-sdk';
+import { IReportRequest, PeekdataApi, ReportColumnType } from 'peekdata-datagateway-api-sdk';
 import React, { Fragment, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { FilterControls } from 'src/ReportBuilder/components/FilterControls';
@@ -11,7 +11,7 @@ import { ViewDropDowns } from 'src/ReportBuilder/components/ViewDropDowns';
 import { defaultRows, setRowsDefaultLimit, setRowsDefaultOffset } from 'src/ReportBuilder/constants/rows';
 import { IDimension, IMetric, ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
 import { ITranslations } from 'src/ReportBuilder/models/translations';
-import { initPeekdataApi } from 'src/ReportBuilder/services/api';
+import { setPeekdataApi } from 'src/ReportBuilder/services/api';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
 import { addGraphNode, changeLimitRowsTo, changeStartWithRow, generateReportRequest, ILoadGraphNodesPayloadRequest, ISelectGraphNodePayload, ISortGraphNodePayload, ISortOrderGraphNodePayload, loadGraphNames, loadGraphNodes, loadReportRequest, loadScopeNames, selectGraphNode, setTranslations, sortEnd, sortOrder, unselectGraphNode } from 'src/ReportBuilder/state/actions';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
@@ -73,7 +73,7 @@ interface IDefaultProps {
 }
 
 export interface IReportBuilderProps extends Partial<IDefaultProps> {
-  apiRequestOptions: IRequestOptions;
+  peekdataApi: PeekdataApi;
   translations?: Partial<ITranslations>;
   reportRequest?: Partial<IReportRequest>;
 }
@@ -110,9 +110,9 @@ class ReportBuilder extends React.PureComponent<IProps> {
   public constructor(props: IProps) {
     super(props);
 
-    const { apiRequestOptions, translations, defaultRowsOffset, defaultRowsLimit, setTranslations } = this.props;
+    const { peekdataApi, translations, defaultRowsOffset, defaultRowsLimit, setTranslations } = this.props;
 
-    initPeekdataApi(apiRequestOptions);
+    setPeekdataApi(peekdataApi);
     setTranslations(translations);
     setRowsDefaultOffset(defaultRowsOffset);
     setRowsDefaultLimit(defaultRowsLimit);
@@ -132,9 +132,9 @@ class ReportBuilder extends React.PureComponent<IProps> {
   }
 
   public componentDidUpdate(prevProps: IProps) {
-    const { translations, apiRequestOptions, onLoadReportRequest, reportRequest, onChangeStartWithRow, onChangeLimitRowsTo, defaultRowsOffset, defaultRowsLimit, setTranslations } = this.props;
+    const { translations, peekdataApi, onLoadReportRequest, reportRequest, onChangeStartWithRow, onChangeLimitRowsTo, defaultRowsOffset, defaultRowsLimit, setTranslations } = this.props;
     const prevTranslations = prevProps && prevProps.translations;
-    const prevApiRequestOptions = prevProps && prevProps.apiRequestOptions;
+    const prevPeekdataApi = prevProps && prevProps.peekdataApi;
     const prevReportRequest = prevProps && prevProps.reportRequest;
     const prevRowsOffset = prevProps && prevProps.defaultRowsOffset;
     const prevRowsLimit = prevProps && prevProps.defaultRowsLimit;
@@ -151,8 +151,8 @@ class ReportBuilder extends React.PureComponent<IProps> {
       setTranslations(translations);
     }
 
-    if (prevApiRequestOptions !== apiRequestOptions) {
-      initPeekdataApi(apiRequestOptions);
+    if (prevPeekdataApi !== peekdataApi) {
+      setPeekdataApi(peekdataApi);
     }
 
     if (prevReportRequest !== reportRequest) {
