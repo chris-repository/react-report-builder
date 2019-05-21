@@ -11,7 +11,7 @@ import { ITranslations, ReportBuilder } from '../../src';
 // #region -------------- Constants -------------------------------------------------------------------
 
 const peekdataApi = new PeekdataApi({
-  baseUrl: 'https://demo.peekdata.io:8443/datagateway/rest/v1'
+  baseUrl: 'https://demo.peekdata.io:8443/datagateway/rest/v1',
 });
 
 const reportRequest: Partial<IReportRequest> = {
