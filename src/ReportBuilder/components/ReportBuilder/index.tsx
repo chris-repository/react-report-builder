@@ -246,7 +246,9 @@ class ReportBuilder extends React.PureComponent<IProps> {
   // #region -------------- Report builder content -------------------------------------------------------------------
 
   private renderReportBuilderContent = () => {
-    if (!this.showReportBuilderContent()) {
+    const { selectedGraph } = this.props;
+
+    if (!selectedGraph) {
       return null;
     }
 
@@ -265,13 +267,6 @@ class ReportBuilder extends React.PureComponent<IProps> {
         {this.renderTabs()}
       </Fragment>
     );
-  }
-
-  private showReportBuilderContent = () => {
-    const { dimensions, metrics } = this.props;
-
-    return dimensions && dimensions.data && dimensions.data.length > 0
-      && metrics && metrics.data && metrics.data.length > 0;
   }
 
   // #endregion

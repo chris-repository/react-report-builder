@@ -23,10 +23,7 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "ts-loader",
-        options: {
-          compiler: 'ttypescript',
-        }
+        loader: "ts-loader"
       },
       {
         test: /\.js$/,

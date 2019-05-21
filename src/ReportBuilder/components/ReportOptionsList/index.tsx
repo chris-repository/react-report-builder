@@ -17,6 +17,11 @@ interface IProps extends ISortableListProps {
 export class ReportOptionsList extends React.PureComponent<IProps> {
   public render() {
     const { optionType, onSortEnd, options, selectedOptions } = this.props;
+
+    if (!options || options.length === 0) {
+      return null;
+    }
+
     const notSelectedOptions = getNotSelectedOptions(options, selectedOptions);
 
     return (
