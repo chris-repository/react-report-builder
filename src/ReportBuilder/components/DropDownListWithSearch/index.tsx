@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import union from 'lodash/union';
 import { IGraphNode } from 'peekdata-datagateway-api-sdk';
 import React from 'react';
 import Select from 'react-select';
@@ -59,7 +60,11 @@ export class DropDownListWithSearch extends React.PureComponent<IProps, IState> 
     if (list && list.length > 0) {
       options = list.map((listItem) => {
         if (isGraphNode(listItem)) {
-          groups = this.getGroups(listItem.groups);
+          if (!groups) {
+            groups = this.getGroups(listItem.groups);
+          } else {
+            groups = union(groups, this.getGroups(listItem.groups));
+          }
 
           return {
             value: listItem.name,
