@@ -90,6 +90,15 @@ export function customizeOvalChartLabel(item, data) {
 }
 
 /**
+ * Customizes chart.js radar chart label
+ * @param item
+ * @param data
+ */
+export function customizeRadarChartLabel(item, data) {
+  return `${data.datasets[item.datasetIndex].label}: ${data.datasets[item.datasetIndex].data[item.index]}`;
+}
+
+/**
  * Generated chart's colors
  * @param labels
  */

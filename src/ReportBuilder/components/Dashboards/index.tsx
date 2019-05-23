@@ -5,7 +5,7 @@ import { ButtonGroup, IButtonGroupButton } from 'src/ReportBuilder/components/Bu
 import { ChartTypes } from 'src/ReportBuilder/models/chart';
 import { ISelectedGraphNode } from 'src/ReportBuilder/models/graph';
 import { ITranslations } from 'src/ReportBuilder/models/translations';
-import { colorizeChart, colorizeOvalChart, customizeOvalChartLabel, generateChartColors, getChartLabels, getDataIndexes, getDataSets } from 'src/ReportBuilder/utils/Chart';
+import { colorizeChart, colorizeOvalChart, customizeOvalChartLabel, customizeRadarChartLabel, generateChartColors, getChartLabels, getDataIndexes, getDataSets } from 'src/ReportBuilder/utils/Chart';
 import 'src/style/components/dashboards.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -164,6 +164,11 @@ export class Dashboards extends React.PureComponent<IProps, IState> {
         scales: {
           ticks: {
             beginAtZero: true,
+          },
+        },
+        tooltips: {
+          callbacks: {
+            label: customizeRadarChartLabel,
           },
         },
       };
