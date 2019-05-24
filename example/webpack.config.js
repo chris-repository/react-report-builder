@@ -14,7 +14,6 @@ module.exports = {
     host: 'localhost'
   },
   entry: {
-    lib: path.join(dirApp, '../../lib/index.js'),
     app: path.join(dirApp, 'index.jsx'),
   },
   resolve: {
