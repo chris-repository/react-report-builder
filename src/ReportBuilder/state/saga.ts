@@ -18,13 +18,14 @@ import { isPeekdataError } from '../utils/ErrorUtils';
 function* onLoadReportRequest(action: IAction<Partial<IReportRequest>>) {
   try {
     const reportRequest = action.payload;
+    const scopeName = reportRequest && reportRequest.scopeName;
 
-    if (!reportRequest) {
+    if (!reportRequest || !scopeName) {
       yield put(loadScopeNames());
       return;
     }
 
-    const { scopeName, graphName, dimensions, metrics, sortings, filters, options } = reportRequest;
+    const { graphName, dimensions, metrics, sortings, filters, options } = reportRequest;
     const optionsRows = options && options.rows;
     const startWithRow = optionsRows && optionsRows.startWithRow;
     const limitRowsTo = optionsRows && optionsRows.limitRowsTo;
@@ -35,24 +36,26 @@ function* onLoadReportRequest(action: IAction<Partial<IReportRequest>>) {
     yield put(loadGraphNames(scopeName));
     yield take(actionTypes.graphNamesLoaded);
 
-    const selectedDimensions = getSelectedDimensions(dimensions, sortings);
-    const selectedMetrics = getSelectedMetrics(metrics, sortings);
+    if (graphName) {
+      const selectedDimensions = getSelectedDimensions(dimensions, sortings);
+      const selectedMetrics = getSelectedMetrics(metrics, sortings);
 
-    yield put(loadGraphNodes({
-      selectedGraph: graphName,
-      selectedDimensions,
-      selectedMetrics,
-    }));
+      yield put(loadGraphNodes({
+        selectedGraph: graphName,
+        selectedDimensions,
+        selectedMetrics,
+      }));
 
-    yield take(actionTypes.dimensionsLoaded);
-    yield put(filtersLoaded(filters));
+      yield take(actionTypes.dimensionsLoaded);
+      yield put(filtersLoaded(filters));
 
-    yield put(selectGraphNode(null));
-    yield take(actionTypes.compatibilityChecked);
+      yield put(selectGraphNode(null));
+      yield take(actionTypes.compatibilityChecked);
 
-    yield put(changeStartWithRow(startWithRow !== undefined && startWithRow !== null ? Number(startWithRow) : defaultRows.offset));
-    yield put(changeLimitRowsTo(limitRowsTo !== undefined && limitRowsTo !== null ? Number(limitRowsTo) : defaultRows.limit));
-    yield put(reportRequestGenerated(reportRequest));
+      yield put(changeStartWithRow(startWithRow !== undefined && startWithRow !== null ? Number(startWithRow) : defaultRows.offset));
+      yield put(changeLimitRowsTo(limitRowsTo !== undefined && limitRowsTo !== null ? Number(limitRowsTo) : defaultRows.limit));
+      yield put(reportRequestGenerated(reportRequest));
+    }
   } catch (error) {
     console.error(error);
   }

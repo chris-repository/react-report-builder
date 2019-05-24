@@ -13,7 +13,7 @@ import { IDimension, IMetric, ISelectedGraphNode } from 'src/ReportBuilder/model
 import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { setPeekdataApi } from 'src/ReportBuilder/services/api';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
-import { addGraphNode, changeLimitRowsTo, changeStartWithRow, generateReportRequest, ILoadGraphNodesPayloadRequest, ISelectGraphNodePayload, ISortGraphNodePayload, ISortOrderGraphNodePayload, loadGraphNames, loadGraphNodes, loadReportRequest, loadScopeNames, selectGraphNode, setTranslations, sortEnd, sortOrder, unselectGraphNode } from 'src/ReportBuilder/state/actions';
+import { addGraphNode, changeLimitRowsTo, changeStartWithRow, generateReportRequest, ILoadGraphNodesPayloadRequest, ISelectGraphNodePayload, ISortGraphNodePayload, ISortOrderGraphNodePayload, loadGraphNames, loadGraphNodes, loadReportRequest, selectGraphNode, setTranslations, sortEnd, sortOrder, unselectGraphNode } from 'src/ReportBuilder/state/actions';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
 import { ICompatibilityState } from 'src/ReportBuilder/state/reducers/compatibility';
 
@@ -43,7 +43,6 @@ interface IDispatchProps {
   onSortEnd: (payload: ISortGraphNodePayload) => void;
   onChangeLimitRowsTo: (payload: number) => void;
   onChangeStartWithRow: (payload: number) => void;
-  onLoadScopeNames: () => void;
   onScopeChanged: (scope: string) => void;
   onGraphChanged: (payload: ILoadGraphNodesPayloadRequest) => void;
   onLoadReportRequest: (reportRequest: Partial<IReportRequest>) => void;
@@ -119,16 +118,11 @@ class ReportBuilder extends React.PureComponent<IProps> {
   }
 
   public componentDidMount() {
-    const { onLoadScopeNames, reportRequest, onLoadReportRequest, onChangeStartWithRow, onChangeLimitRowsTo, defaultRowsOffset, defaultRowsLimit } = this.props;
+    const { reportRequest, onLoadReportRequest, onChangeStartWithRow, onChangeLimitRowsTo, defaultRowsOffset, defaultRowsLimit } = this.props;
 
     onChangeStartWithRow(defaultRowsOffset);
     onChangeLimitRowsTo(defaultRowsLimit);
-
-    if (reportRequest) {
-      onLoadReportRequest(reportRequest);
-    } else {
-      onLoadScopeNames();
-    }
+    onLoadReportRequest(reportRequest);
   }
 
   public componentDidUpdate(prevProps: IProps) {
@@ -498,7 +492,6 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
       onSortEnd: (payload: ISortGraphNodePayload) => dispatch(sortEnd(payload)),
       onChangeStartWithRow: (payload: number) => dispatch(changeStartWithRow(payload)),
       onChangeLimitRowsTo: (payload: number) => dispatch(changeLimitRowsTo(payload)),
-      onLoadScopeNames: () => dispatch(loadScopeNames()),
       onScopeChanged: (scope: string) => dispatch(loadGraphNames(scope)),
       onGraphChanged: (payload: ILoadGraphNodesPayloadRequest) => dispatch(loadGraphNodes(payload)),
       onLoadReportRequest: (reportRequest: Partial<IReportRequest>) => dispatch(loadReportRequest(reportRequest)),
