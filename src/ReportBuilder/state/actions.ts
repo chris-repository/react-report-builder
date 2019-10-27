@@ -357,4 +357,3 @@ export function expandReportOptions() {
     type: actionTypes.expandReportOptions,
   };
 }
-
