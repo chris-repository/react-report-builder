@@ -1,5 +1,5 @@
 import Collapse from '@kunukn/react-collapse';
-import cx from "classnames";
+import cx from 'classnames';
 import { IReportRequest, PeekdataApi, ReportColumnType } from 'peekdata-datagateway-api-sdk';
 import React, { Fragment, ReactNode } from 'react';
 import { connect } from 'react-redux';
@@ -254,10 +254,10 @@ class ReportBuilder extends React.PureComponent<IProps> {
         <div className='rb-report-content'>
 
           <div onClick={() => onReportOptionsChange()}>
-            <span className="rotate90">
-              <svg className={cx("icon", { "icon--expanded": reportOptions.isReportOptionsOpen })}
-                viewBox="6 0 12 24">
-                <polygon points="8 0 6 1.8 14.4 12 6 22.2 8 24 18 12" />
+            <span className='rotate90'>
+              <svg className={cx('icon', { 'icon--expanded': reportOptions.isReportOptionsOpen })}
+                viewBox='6 0 12 24'>
+                <polygon points='8 0 6 1.8 14.4 12 6 22.2 8 24 18 12' />
               </svg>
             </span>
             <span className='rb-title-dark rb-title-small'>{t.contentTitle}</span>
@@ -273,7 +273,6 @@ class ReportBuilder extends React.PureComponent<IProps> {
           </Collapse>
 
         </div>
-
 
         {this.renderViewDropDowns()}
         {this.renderTabs()}
@@ -502,7 +501,7 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
       onLoadReportRequest: (reportRequest: Partial<IReportRequest>) => dispatch(loadReportRequest(reportRequest)),
       onGenerateReportRequest: () => dispatch(generateReportRequest()),
       setTranslations: (translations: Partial<ITranslations>) => dispatch(setTranslations(translations)),
-      onReportOptionsChange: () => dispatch(expandReportOptions())
+      onReportOptionsChange: () => dispatch(expandReportOptions()),
     };
   },
 )(ReportBuilder);
@@ -510,4 +509,3 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
 // #endregion
 
 export { connected as ReportBuilder };
-
