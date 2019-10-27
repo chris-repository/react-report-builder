@@ -5,6 +5,7 @@ import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
 import { ICompatibilityState } from './compatibility';
 import { IGraphNamesState } from './graphNames';
+import { IReportOptionsState } from './reportOptions';
 import { IScopeNamesState } from './scopeNames';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -26,6 +27,7 @@ export interface IReportBuilderState {
   selectedDimensions: ISelectedGraphNode[];
   selectedMetrics: ISelectedGraphNode[];
   translations: ITranslations;
+  reportOptions: IReportOptionsState;
 }
 
 // #endregion

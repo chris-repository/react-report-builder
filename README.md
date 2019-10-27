@@ -63,7 +63,6 @@ Props description:
 | peekdataApi (required) | object      |               | Peekdata API object. To understand how to create it read [here](https://github.com/peekdata/datagateway-api-js-sdk#compact-initialization). |
 |      translations      | object      |               | Translations object. All available translations can be seen [here](https://github.com/peekdata/react-report-builder/blob/master/src/assets/translations/index.ts). |
 |     reportRequest      | object      |               | This object can be used to prefill report builder form fields. All properties are optional. To understand how to create or modify this object read [here](https://github.com/peekdata/datagateway-api-js-sdk#report-request-options). |
-|    showContentTitle    | boolean     | true          | Whether report builder title `Report content` is shown       |
 |         loader         | elementType |               | Loader can be changed by passing custom loader component.    |
 |   showScopesDropdown   | boolean     | true          | Whether the scopes dropdown is shown                         |
 |   showGraphsDropdown   | boolean     | true          | Whether the graphs dropdown is shown                         |

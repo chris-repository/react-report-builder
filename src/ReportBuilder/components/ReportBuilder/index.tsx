@@ -1,3 +1,5 @@
+import Collapse from '@kunukn/react-collapse';
+import cx from "classnames";
 import { IReportRequest, PeekdataApi, ReportColumnType } from 'peekdata-datagateway-api-sdk';
 import React, { Fragment, ReactNode } from 'react';
 import { connect } from 'react-redux';
@@ -13,9 +15,10 @@ import { IDimension, IMetric, ISelectedGraphNode } from 'src/ReportBuilder/model
 import { ITranslations } from 'src/ReportBuilder/models/translations';
 import { setPeekdataApi } from 'src/ReportBuilder/services/api';
 import { IAsyncState } from 'src/ReportBuilder/state/action';
-import { addGraphNode, changeLimitRowsTo, changeStartWithRow, generateReportRequest, ILoadGraphNodesPayloadRequest, ISelectGraphNodePayload, ISortGraphNodePayload, ISortOrderGraphNodePayload, loadGraphNames, loadGraphNodes, loadReportRequest, selectGraphNode, setTranslations, sortEnd, sortOrder, unselectGraphNode } from 'src/ReportBuilder/state/actions';
+import { addGraphNode, changeLimitRowsTo, changeStartWithRow, expandReportOptions, generateReportRequest, ILoadGraphNodesPayloadRequest, ISelectGraphNodePayload, ISortGraphNodePayload, ISortOrderGraphNodePayload, loadGraphNames, loadGraphNodes, loadReportRequest, selectGraphNode, setTranslations, sortEnd, sortOrder, unselectGraphNode } from 'src/ReportBuilder/state/actions';
 import { IReportBuilderState } from 'src/ReportBuilder/state/reducers';
 import { ICompatibilityState } from 'src/ReportBuilder/state/reducers/compatibility';
+import { IReportOptionsState } from 'src/ReportBuilder/state/reducers/reportOptions';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -33,6 +36,7 @@ interface IStateProps {
   graphNames: IAsyncState<string[]>;
   selectedGraph: string;
   t: ITranslations;
+  reportOptions: IReportOptionsState;
 }
 
 interface IDispatchProps {
@@ -48,10 +52,10 @@ interface IDispatchProps {
   onLoadReportRequest: (reportRequest: Partial<IReportRequest>) => void;
   onGenerateReportRequest: () => void;
   setTranslations: (translations: Partial<ITranslations>) => void;
+  onReportOptionsChange: () => void;
 }
 
 interface IDefaultProps {
-  showContentTitle: boolean;
   loader: ReactNode;
   showScopesDropdown: boolean;
   showGraphsDropdown: boolean;
@@ -86,7 +90,6 @@ interface IProps extends IStateProps, IDispatchProps, IReportBuilderProps { }
 class ReportBuilder extends React.PureComponent<IProps> {
 
   public static defaultProps: IDefaultProps = {
-    showContentTitle: true,
     loader: <Spinner />,
     showScopesDropdown: true,
     showGraphsDropdown: true,
@@ -240,7 +243,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
   // #region -------------- Report builder content -------------------------------------------------------------------
 
   private renderReportBuilderContent = () => {
-    const { selectedGraph } = this.props;
+    const { selectedGraph, onReportOptionsChange, reportOptions, t } = this.props;
 
     if (!selectedGraph) {
       return null;
@@ -249,14 +252,29 @@ class ReportBuilder extends React.PureComponent<IProps> {
     return (
       <Fragment>
         <div className='rb-report-content'>
-          {this.renderContentTitle()}
-          {this.renderCompatibilityError()}
-          {this.renderDimensionsList()}
-          {this.renderMetricsList()}
+
+          <div onClick={() => onReportOptionsChange()}>
+            <span className="rotate90">
+              <svg className={cx("icon", { "icon--expanded": reportOptions.isReportOptionsOpen })}
+                viewBox="6 0 12 24">
+                <polygon points="8 0 6 1.8 14.4 12 6 22.2 8 24 18 12" />
+              </svg>
+            </span>
+            <span className='rb-title-dark rb-title-small'>{t.contentTitle}</span>
+
+          </div>
+
+          <Collapse className='rb-report-option-content' isOpen={reportOptions.isReportOptionsOpen}>
+            {this.renderCompatibilityError()}
+            {this.renderMetricsList()}
+            {this.renderDimensionsList()}
+            {this.renderFilters()}
+            {this.renderRowsLimit()}
+          </Collapse>
+
         </div>
 
-        {this.renderFilters()}
-        {this.renderRowsLimit()}
+
         {this.renderViewDropDowns()}
         {this.renderTabs()}
       </Fragment>
@@ -264,20 +282,6 @@ class ReportBuilder extends React.PureComponent<IProps> {
   }
 
   // #endregion
-
-  // #region -------------- Content title -------------------------------------------------------------------
-
-  private renderContentTitle = () => {
-    const { showContentTitle, t } = this.props;
-
-    if (!showContentTitle) {
-      return null;
-    }
-
-    return (
-      <div className='rb-title-dark rb-title-small'>{t.contentTitle}</div>
-    );
-  }
 
   // #endregion
 
@@ -465,7 +469,7 @@ class ReportBuilder extends React.PureComponent<IProps> {
 
 const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IReportBuilderState>(
   (state) => {
-    const { dimensions, metrics, selectedDimensions, selectedMetrics, compatibility, limitRowsTo, startWithRow, request, scopeNames, graphNames, translations } = state;
+    const { dimensions, metrics, selectedDimensions, selectedMetrics, compatibility, limitRowsTo, startWithRow, request, scopeNames, graphNames, translations, reportOptions } = state;
 
     return {
       dimensions,
@@ -481,6 +485,7 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
       graphNames: graphNames && graphNames.graphNames,
       selectedGraph: graphNames && graphNames.selectedGraph,
       t: translations,
+      reportOptions,
     };
   },
   (dispatch) => {
@@ -497,6 +502,7 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
       onLoadReportRequest: (reportRequest: Partial<IReportRequest>) => dispatch(loadReportRequest(reportRequest)),
       onGenerateReportRequest: () => dispatch(generateReportRequest()),
       setTranslations: (translations: Partial<ITranslations>) => dispatch(setTranslations(translations)),
+      onReportOptionsChange: () => dispatch(expandReportOptions())
     };
   },
 )(ReportBuilder);
@@ -504,3 +510,4 @@ const connected = connect<IStateProps, IDispatchProps, IReportBuilderProps, IRep
 // #endregion
 
 export { connected as ReportBuilder };
+

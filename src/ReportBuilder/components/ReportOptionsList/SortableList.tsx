@@ -79,3 +79,4 @@ class SortableList extends React.PureComponent<ISortableListProps> {
 const withSortableContainer = SortableContainer(SortableList);
 
 export { withSortableContainer as SortableList };
+

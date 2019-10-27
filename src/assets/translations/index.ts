@@ -5,7 +5,7 @@ export const translations: ITranslations = {
   scopesPlaceholder: 'Scope',
   graphsDropdownTitle: 'Data Source',
   graphsPlaceholder: 'Data Source',
-  contentTitle: 'Report content',
+  contentTitle: 'Report options',
   dimensionsListTitle: 'Dimensions',
   dimensionPlaceholder: 'Select dimension',
   noDimensionsText: 'No dimensions found',

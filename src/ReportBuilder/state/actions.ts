@@ -42,6 +42,7 @@ export const actionTypes = {
   loadCsvFile: 'reportBuilder/LOAD_CSV_FILE',
   csvFileLoaded: 'reportBuilder/CSV_FILE_LOADED',
   setTranslations: 'reportBuilder/SET_TRANSLATIONS',
+  expandReportOptions: 'reportBuilder/EXPAND_REPORT_OPTIONS',
 };
 
 // #endregion
@@ -350,3 +351,10 @@ export function setTranslations(payload: Partial<ITranslations>) {
 }
 
 // #endregion
+
+export function expandReportOptions() {
+  return {
+    type: actionTypes.expandReportOptions,
+  };
+}
+

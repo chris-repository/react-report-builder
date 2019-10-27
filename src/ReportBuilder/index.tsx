@@ -16,7 +16,7 @@ const store = configureStore();
 export class ReportBuilder extends React.PureComponent<IReportBuilderProps> {
   public render() {
     return (
-      <Provider store={store}>
+      <Provider store={store as any}>
         <ReportBuilderInner {...this.props} />
       </Provider>
     );

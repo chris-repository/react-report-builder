@@ -9,6 +9,7 @@ import { filters } from './reducers/filters';
 import { graphNames } from './reducers/graphNames';
 import { getLimitRowsTo } from './reducers/limitRowsTo';
 import { metrics } from './reducers/metrics';
+import { reportOptions } from './reducers/reportOptions';
 import { request } from './reducers/request';
 import { scopeNames } from './reducers/scopeNames';
 import { select } from './reducers/select';
@@ -36,6 +37,7 @@ export const rootReducer = combineReducers<IReportBuilderState>({
   selectedDimensions,
   selectedMetrics,
   translations: translationsReducer,
+  reportOptions,
 });
 
 // #endregion
